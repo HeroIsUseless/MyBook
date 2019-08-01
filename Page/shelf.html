@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MyBook</title>
+    <link rel="stylesheet "type="text/css" href="index.css"/>
+  </head>
+  <body>
+    <div id="app">
+        <div id="mainPage">
+        <div id="navigation">
+            <div id=nav_item" class="nav_item">
+                <img class="nav_item_img" src="./Resource/Image/32px/home.png"/>
+                <p class="nav_item_text">主页</p> 
+            </div>
+            <div id="" class="nav_item">
+                <img class="nav_item_img" src="./Resource/Image/32px/rank.png"/>
+                <p class="nav_item_text">排行榜</p> 
+            </div>
+            <div id="" class="nav_item">
+                <img class="nav_item_img" src="./Resource/Image/32px/sort.png"/>
+                <p class="nav_item_text">分类</p> 
+            </div>
+            <div id="" class="nav_item" style="background:  rgb(180, 180, 180)">
+                <img class="nav_item_img" src="./Resource/Image/32px/shelf.png"/>
+                <p class="nav_item_text">书架</p> 
+            </div>
+
+            </div>
+            <div id="content">
+                <div id="headView">
+                    <p id="import">本地导入</p>
+                </div>
+                <div id="shelf">
+                    <div class="book">
+                        <div class="mark">
+                            <p style="font-size: 12px;">有更新</p>
+                        </div>
+                        <p class="book_name">斗破苍穹</p>
+                        <div class="book_bottom"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+  <script src="./renderer.js"></script>
+</html>
+<style>
+*{
+    padding: 0px;
+    margin: 0px;
+    font-family:'微软雅黑';
+}
+html, body{
+    height: 100%;
+}
+#app{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+#mainPage{
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+}
+#navigation{
+    height: 100%;
+    width: 30%;
+    background: rgb(214, 214, 214);
+}
+.nav_item{
+    width: 100%;
+    height: 50px;
+    display:flex;
+    align-items: center;
+    transition: all ease .3s;
+}
+.nav_item_img{
+    padding: 9px;
+}
+.nav_item_text{
+    cursor: default;
+}
+#content{
+    height: 100%;
+    width: 70%;
+}
+#headView{
+    width: 100%;
+    height: 50px;
+    /* display: flex;
+    align-items: center; */
+    /* background: red; */
+}
+#import{
+    float:right;
+    margin: 10px;
+    padding:2px;
+    border: solid 2px grey;
+    /* background: red; */
+}
+#shelf{
+
+}
+.book{
+    height: 120px;
+    width: 90px;
+    margin: 20px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 10px grey;
+    background: rgb(127, 122, 139);
+}
+.mark{
+    height: 20px;
+    width: 41px;
+    background: red;
+    color: white;
+    margin: 5px;
+}
+.book_name{
+    font-size: 15px;
+    color: white;
+    margin: 13px;
+}
+.book_bottom{
+    height: 7px;
+    width: 98%;
+    margin-top: 58px;
+    border: solid 1px grey;
+    border-radius: 2px;
+    background: white;
+}
+
+</style>

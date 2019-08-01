@@ -36,6 +36,7 @@
 * 能有基本的字符串操作，将整本书拆分成章节，并提炼出目录。
 
 ## 日志
+**[heroisuseless， 2019/8/1]**：分类页面设计![5.png](./readme_res/5.png)
 **[heroisuseless， 2019/8/1]**：书架页面设计![4.png](./readme_res/4.png)
 **[heroisuseless， 2019/8/1]**：美化阅读界面![3.png](./readme_res/3.png)
 **[heroisuseless， 2019/7/31]**：项目启动啦！
