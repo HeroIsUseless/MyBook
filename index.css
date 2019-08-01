@@ -20,12 +20,16 @@ html, body{
 }
 #content{
     height: 100%;
-    width: 70%;
+    width: 65%;
+}
+.cardView{
+    border: solid 1px rgb(189, 189, 189);
+    margin-top: 10px;
+    padding: 60px;
     background: white;
 }
 #book_title{
-    font-size: 30px;
-    margin: 20px;
+    font-size: 25px;
     margin-bottom: 0px;
 }
 #book_info{
@@ -34,14 +38,19 @@ html, body{
     font-size: 12px;
     margin: 10px;
 }
-#return{
+.book_text{
+    font-size: 18px;
+}
+#back{
     position: absolute;
-    left: 680px;
-    top: 480px;
-    height: 40px;
-    width: 40px;
+    right: 12%;
+    bottom: 5%;
+    height: 50px;
+    width: 50px;
     display: flex;
     justify-content: center;
+    align-items: center;
     background: white;
+    border: solid 1px rgb(189, 189, 189);
 }
 
