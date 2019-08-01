@@ -11,46 +11,76 @@ html, body{
     width: 100%;
     display: flex;
 }
-#readPage{
+#mainPage{
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: center;
+
+}
+#navigation{
+    height: 100%;
+    width: 30%;
     background: rgb(214, 214, 214);
+}
+.nav_item{
+    width: 100%;
+    height: 50px;
+    display:flex;
+    align-items: center;
+    transition: all ease .3s;
+}
+.nav_item_img{
+    padding: 9px;
+}
+.nav_item_text{
+    cursor: default;
 }
 #content{
     height: 100%;
-    width: 65%;
+    width: 70%;
 }
-.cardView{
-    border: solid 1px rgb(189, 189, 189);
-    margin-top: 10px;
-    padding: 60px;
-    background: white;
-}
-#book_title{
-    font-size: 25px;
-    margin-bottom: 0px;
-}
-#book_info{
-    display: flex;
-    color: grey;
-    font-size: 12px;
-    margin: 10px;
-}
-.book_text{
-    font-size: 18px;
-}
-#back{
-    position: absolute;
-    right: 12%;
-    bottom: 5%;
+#headView{
+    width: 100%;
     height: 50px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border: solid 1px rgb(189, 189, 189);
+    /* display: flex;
+    align-items: center; */
+    /* background: red; */
 }
+#import{
+    float:right;
+    margin: 10px;
+    padding:2px;
+    border: solid 2px grey;
+    /* background: red; */
+}
+#shelf{
 
+}
+.book{
+    height: 120px;
+    width: 90px;
+    margin: 20px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 10px grey;
+    background: rgb(127, 122, 139);
+}
+.mark{
+    height: 20px;
+    width: 41px;
+    background: red;
+    color: white;
+    margin: 5px;
+}
+.book_name{
+    font-size: 15px;
+    color: white;
+    margin: 13px;
+}
+.book_bottom{
+    height: 7px;
+    width: 98%;
+    margin-top: 58px;
+    border: solid 1px grey;
+    border-radius: 2px;
+    background: white;
+}

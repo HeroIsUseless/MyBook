@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MyBook-《斗破苍穹》</title>
+    <link rel="stylesheet "type="text/css" href="index.css"/>
+  </head>
+  <body>
+    <div id="app">
+        <div id="readPage">
+            <div id="content">
+                <div id="chapter" class="cardView">
+                    <p id="book_title">第一章 陨落的天才</p>
+                        <div id="book_info">
+                            <img src="./Resource/Image/16px/word_count.png"/>
+                            <p>&nbsp; 4332字&nbsp;&nbsp;&nbsp;</p>
+                            <img src="./Resource/Image/16px/bookmark.png"/>
+                            <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
+                        </div>
+                        <div class="book_text"><br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;斗之力，三段<br/><br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;望着测验魔石碑上面闪亮得甚至有些刺眼的五个大字，少年面无表情，唇角有着一抹自嘲，紧握的手掌，因为大力，而导致略微尖锐的指甲深深的刺进了掌心之中，带来一阵阵钻心的疼痛。
+                            <br/><br/>
+                             &nbsp;&nbsp;&nbsp;&nbsp;萧炎，斗之力，三段级别：低级测验魔石碑之旁，一位中年男子，看了一眼碑上所显示出来的信息，语气漠然的将之公布了出来。
+                            <br/><br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;中年男子话刚刚脱口，便是不出意外的在人头汹涌的广场上带起了一阵嘲讽的骚动。
+                        </div>
+                </div>
+ 
+            </div>
+            <div id="back">
+                <img src="./Resource/Image/16px/to_top.png" style="height: 16px;width: 16px;"/>
+            </div>
+        </div>
+    </div>
+  </body>
+  <script src="./renderer.js"></script>
+</html>
+<style>
+*{
+    padding: 0px;
+    margin: 0px;
+    font-family:'微软雅黑';
+}
+html, body{
+    height: 100%;
+}
+#app{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+#readPage{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: rgb(214, 214, 214);
+}
+#content{
+    height: 100%;
+    width: 65%;
+}
+.cardView{
+    border: solid 1px rgb(189, 189, 189);
+    margin-top: 10px;
+    padding: 60px;
+    background: white;
+}
+#book_title{
+    font-size: 25px;
+    margin-bottom: 0px;
+}
+#book_info{
+    display: flex;
+    color: grey;
+    font-size: 12px;
+    margin: 10px;
+}
+.book_text{
+    font-size: 18px;
+}
+#back{
+    position: absolute;
+    right: 12%;
+    bottom: 5%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border: solid 1px rgb(189, 189, 189);
+}
+
+</style>
+
