@@ -4,64 +4,199 @@
     <meta charset="UTF-8">
     <title>MyBook</title>
     <link rel="stylesheet "type="text/css" href="index.css"/>
+    <script src="./Lib/jquery.js"> </script>
+    <script src="./Lib/vue.min.js"></script>
   </head>
   <body>
     <div id="app">
-        <div id="mainPage">
-        <div id="navigation">
-            <div id=nav_item" class="nav_item">
-                <img class="nav_item_img" src="./Resource/Image/32px/home.png"/>
-                <p class="nav_item_text">主页</p> 
+        <div id="main_page"  v-if="active_page == 'main_page'">
+            <div id="navigation">
+                <div id="" class="nav_item" v-on:click="home_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/home.png"/>
+                    <p class="nav_item_text">主页</p> 
+                </div>
+                <div id="" class="nav_item" v-on:click="rank_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/rank.png"/>
+                    <p class="nav_item_text">排行榜</p> 
+                </div>
+                <div id="" class="nav_item" v-on:click="sort_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/sort.png"/>
+                    <p class="nav_item_text">分类</p> 
+                </div>
+                <div id="" class="nav_item" v-on:click="shelf_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/shelf.png"/>
+                    <p class="nav_item_text">书架</p> 
+                </div>
+                <div id="nav_setting" class="nav_item" v-on:click="setting_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/setting.png"/>
+                    <p class="nav_item_text">设置</p> 
+                </div>
+                <div class="nav_mark" v-bind:style="{top:nav_mark_top+'px', bottom:nav_mark_bottom+'px'}"> </div>
             </div>
-            <div id="" class="nav_item">
-                <img class="nav_item_img" src="./Resource/Image/32px/rank.png"/>
-                <p class="nav_item_text">排行榜</p> 
-            </div>
-            <div id="" class="nav_item" style="background:  rgb(180, 180, 180)">
-                <img class="nav_item_img" src="./Resource/Image/32px/sort.png"/>
-                <p class="nav_item_text">分类</p> 
-            </div>
-            <div id="" class="nav_item">
-                <img class="nav_item_img" src="./Resource/Image/32px/shelf.png"/>
-                <p class="nav_item_text">书架</p> 
-            </div>
+            <div id="section">
+    <div id="home_section" v-if="active_section=='home_section'">
+                    <div id="home_broad">
+                        <img src="./Resource/Image/tf.jpg" style="height: 100%; width:100%;"/>
+                    </div>
+                    <div id="home_search">
+                        <div id="home_search_box"></div>
+                        <div id="home_search_bt">搜索</div>
+                    </div>
+                    <div style="margin: 10px;">推荐</div>
+                    <div id="home_list">
+                        <div class="sort_item">
+                            <div class="sort_book">
+                                <img src="./Resource/Image/book.jpg"/>
+                            </div>
+                            <div class="sort_book_info">
+                                <p class="sort_book_name">斗破苍穹</p>
+                                <p style="font-size: 12px; color:grey;">这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！</p>
+                                <p style="font-size: 12px; color: grey; margin-top: 35px;">天蚕土豆</p>
+                            </div>
+                        </div>
+                        <div class="sort_item">
+                            <div class="sort_book">
+                                <img src="./Resource/Image/book2.jpg"/>
+                            </div>
+                            <div class="sort_book_info">
+                                <p class="sort_book_name">斗罗大陆</p>
+                                <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
+                                <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
+                            </div>
+                        </div>
+                        
+                        <div id="sort_refresh">
+                            <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
+                        </div>   
+                    </div>
+                </div><!-- home_section -->
+                <div id="rank_section" v-else-if="active_section=='rank_section'">
+                    rank
+                </div><!-- rank_section -->
+                <div id="sort_section" v-else-if="active_section=='sort_section'">
+                    <div id="sort_head">
+                        <p class="sort_head_item">玄幻</p>
+                        <p class="sort_head_item">奇幻</p>
+                        <p class="sort_head_item">武侠</p>
+                        <p class="sort_head_item">仙侠</p>
+                        <p class="sort_head_item">都市</p>
+                        <p class="sort_head_item">现实</p>
+                        <p class="sort_head_item">军事</p>
+                        <p class="sort_head_item">历史</p>
 
-            </div>
-            <div id="content">
-                <div id="head">
-                    <p class="item">玄幻</p>
-                    <p class="item">奇幻</p>
-                    <p class="item">武侠</p>
-                    <p class="item">仙侠</p>
-                    <p class="item">都市</p>
-                    <p class="item">现实</p>
-                    <p class="item">军事</p>
-                    <p class="item">历史</p>
-                </div>
-                <div id="mark"></div>
-                <div class="con_item">
-                    <div class="book">
-                        <img src="./Resource/Image/book.jpg"/>
                     </div>
-                    <div class="book_info">
-                        <p style="font-size: 18px; margin: 20px; margin-left:0px; margin-bottom: 10px;">斗破苍穹</p>
-                        <p style="font-size: 12px; color:grey;">这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！</p>
-                        <p style="font-size: 12px; color: grey; margin-top: 35px;">天蚕土豆</p>
+                    <div id="sort_head_mark"></div>
+                    <div class="sort_item">
+                        <div class="sort_book">
+                            <img src="./Resource/Image/book.jpg"/>
+                        </div>
+                        <div class="sort_book_info">
+                            <p class="sort_book_name">斗破苍穹</p>
+                            <p style="font-size: 12px; color:grey;">这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！</p>
+                            <p style="font-size: 12px; color: grey; margin-top: 35px;">天蚕土豆</p>
+                        </div>
                     </div>
-                </div>
-                <div class="con_item">
-                    <div class="book">
-                        <img src="./Resource/Image/book2.jpg"/>
+                    <div class="sort_item">
+                        <div class="sort_book">
+                            <img src="./Resource/Image/book2.jpg"/>
+                        </div>
+                        <div class="sort_book_info">
+                            <p class="sort_book_name">斗罗大陆</p>
+                            <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
+                            <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
+                        </div>
                     </div>
-                    <div class="book_info">
-                        <p style="font-size: 18px; margin: 20px; margin-left:0px; margin-bottom: 10px;">斗罗大陆</p>
-                        <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
-                        <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
+                    <div id="sort_refresh">
+                        <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
+                    </div>                
+                </div><!-- sort_section -->
+                <div id="shelf_section" v-else-if="active_section == 'shelf_section'">
+                    <div id="shelf_head">
+                        <p id="shelf_import" v-on:click="shelf_import_click">本地导入</p>
+                    </div>
+                    <div id="shelf_content">
+                        <template v-for="book in books">
+                            <div class="shelf_book"  v-on:click="book_click">
+                                <div class="shelf_book_mark">
+                                    <p style="font-size: 12px;">有更新</p>
+                                </div>
+                                <div class="shelf_book_cover"></div>
+                                <p class="shelf_book_name">{{book.name}}</p>
+                                <div class="shelf_book_bottom"></div>
+                            </div>
+                        </template>
+                    </div>
+                
+                </div><!-- shelf_section -->
+                <div id="setting_section" v-else-if="active_section == 'setting_section'">
+                    <div style="display: flex; margin: 10px;">
+                        <p>小说源：</p>
+                        <select>
+                            <option value="书包网" selected="selected">书包网</option>
+                            <option value="笔趣阁">笔趣阁</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>主 题：</p>
+                        <select>
+                            <option value="白色主题" selected="selected">白色主题</option>
+                            <option value="黑色主题">黑色主题</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>外 观：</p>
+                        <select>
+                            <option value="白色主题">Material风格</option>
+                            <option value="黑色主题" selected="selected">Windows风格</option>
+                            <option value="黑色主题">OSX风格</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- <div id="read_background" v-else-if="active_page == 'read_page'"></div> -->
+        <div id="read_page" v-else-if="active_page == 'read_page'">
+            <div id="read_list" v-if="read_list_visible == true">
+                <div id="read_list_head">
+                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
+                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
+                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
+                </div>
+                <div id="read_list_content">
+                    <p>第一章 陨落的天才</p>
+                </div>
+            </div>
+            <div id="read_content">
+                <template v-for="chapter in chapters">
+                    <div id="read_chapter" class="card_view" v-bind:style="{top:read_chapter_top+'px'}">
+                        <p id="read_book_caption">{{chapter.caption}}</p>
+                            <div id="read_book_info">
+                                <img src="./Resource/Image/16px/word_count.png"/>
+                                <p>&nbsp; {{chapter.content.length}}字&nbsp;&nbsp;&nbsp;</p>
+                                <img src="./Resource/Image/16px/bookmark.png"/>
+                                <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
+                            </div>
+                            <div class="read_book_text">{{chapter.content}}</div>
+                    </div>
+                </template>
+                <div id="read_control_pannel">
+                    <div id="read_control_button" v-on:click="read_home_click">
+                        <img src="./Resource/Image/32px/home.png" style="height: 20px;width: 20px;"/>
+                    </div>
+                    <div id="read_control_button"  v-on:click="read_list_click">
+                        <img src="./Resource/Image/16px/list.png" style="height: 20px;width: 20px;"/>
+                    </div>
+                    <div id="read_control_button">
+                        <img src="./Resource/Image/16px/to_top.png" style="height: 16px;width: 16px;"/>
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="scroll_bar">
+                <div id="scroll_block"></div>
+            </div> -->
+        </div>
     </div>
+
   </body>
   <script src="./renderer.js"></script>
 </html>

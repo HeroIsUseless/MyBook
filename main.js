@@ -1,11 +1,12 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
 
 let mainWindow
 
 function createWindow () {
-
+    // 隐藏菜单栏
+  Menu.setApplicationMenu(null)
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -17,7 +18,7 @@ function createWindow () {
     slashes: true
   }))
 
-  // mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null
