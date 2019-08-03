@@ -38,8 +38,13 @@
 
 ## 日志
 **[heroisuseless， 2019/8/3]**：添加数据库（nedb）和小说章节切割功能。
-**[heroisuseless， 2019/8/2]**：主页面设计![5.png](./readme_res/6.png)
+
+**[heroisuseless， 2019/8/2]**：主页面设计![6.png](./readme_res/6.png)
+
 **[heroisuseless， 2019/8/1]**：分类页面设计![5.png](./readme_res/5.png)
+
 **[heroisuseless， 2019/8/1]**：书架页面设计![4.png](./readme_res/4.png)
+
 **[heroisuseless， 2019/8/1]**：美化阅读界面![3.png](./readme_res/3.png)
+
 **[heroisuseless， 2019/7/31]**：项目启动啦！
