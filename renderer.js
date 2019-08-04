@@ -9,10 +9,7 @@ const main_db = new nedb({
     filename: path.join(remote.app.getPath('userData'), '/main.db'),
     autoload: true,
 })
-const sub_db = new nedb({
-    filename: path.join(remote.app.getPath('userData'), '/异世重生之无上巅峰.db'),
-    autoload: true,
-})
+
 // 菜单初始化
 let mainMenu = Menu.buildFromTemplate([ 
   {label: '测试',
@@ -35,9 +32,18 @@ let mainMenu = Menu.buildFromTemplate([
         },
         {label: '读取_打开read',
          click: function () {
+             app.active_page = "read_page";
             sub_db.find({
                 
-            }, (err, ret)=>{console.log(ret)});
+            }, (err, ret)=>{
+                app.chapters = ret;
+            });
+         }
+        },
+        {label: '移除main所有记录',
+         click: function () {
+            main_db.remove({}, { multi: true }, (err, numRemoved)=>{});
+            books = [];
          }
         },
     ]
@@ -76,18 +82,24 @@ var app = new Vue({
             app.active_section = 'shelf_section';
             app.nav_mark_top = 150;
             app.books = [];
-            main_db.find({name:"tom"}, function(err, res){
+            main_db.find({}, function(err, res){
                 app.books = res;
-                console.log(app.books);
             });
         },
         setting_click(){
             app.active_section = 'setting_section';
 
         },
-        book_click(){
-            app.active_page = 'read_page';
-            app.nav_mark_top = 200;
+        // 没什么办法能够获取欸
+        book_click(book){
+            const t_db = new nedb({
+                filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
+                autoload: true,
+            })
+             t_db.find({}, function(err, res){
+                app.chapters = res;
+                app.active_page = 'read_page';
+            });
         },
         // 本地导入
         shelf_import_click(){
@@ -99,30 +111,35 @@ var app = new Vue({
                 var index = filePath.lastIndexOf("\\");
                 var name = filePath.slice(index+1);
                 index = name.lastIndexOf(".");
-                name = name.slice(0, index);
-                main_db.insert({name: name}); // 插入数据库
+                name = name.slice(0, index); 
+                // 插入数据库
+                main_db.count({name:name}, function(err, count){
+                    if(count == 0)
+                        main_db.insert({name: name});
+                });
                 // 为小说新建数据库
                 const t_db = new nedb({
                     filename: path.join(remote.app.getPath('userData'), '/' + name + '.db'),
                     autoload: true,
-                })
+                });
                 // 提取小说内容并转码
                 var iconv = require('iconv-lite');
                 // 切割小说章节并存入数据库
                 fs.readFile(filePath, function(err, data){
                     var text = iconv.decode(data, 'gbk');
                     app.chapters = novel_slice(text);
-                    // for(var i=0; i<chapters.length; i++){
-                    //     console.log(chapters[i].caption);
-                    //     t_db.insert({
-                    //         caption: chapter[i].caption,
-                    //         content: chapter[i].content,
-                    //     });
-                    // }
+                    for(var i=0; i<app.chapters.length; i++){
+                        t_db.insert({
+                            caption: app.chapters[i].caption,
+                            content: app.chapters[i].content,
+                        });
+                    }
                 });
+                // 打开阅读界面
                 app.active_page = "read_page";
             }
         },
+        read_list_caption_click(chapter){},
         read_home_click(){
             app.active_page = 'main_page';
         },

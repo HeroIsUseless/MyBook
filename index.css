@@ -78,7 +78,14 @@ html, body{
 #home_search_box{
     width: 250px;
     height: 20px;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 2px solid grey;
+}
+#home_search_box:focus{
+    outline:none;
 }
 #home_search_bt{
     width: 40px;
@@ -172,6 +179,8 @@ html, body{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
 }
 .shelf_book{
     position: relative;
@@ -203,7 +212,10 @@ html, body{
 .shelf_book_name{
     font-size: 15px;
     color: white;
-    margin: 13px;
+    margin: 7px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 .shelf_book_bottom{
     height: 7px;
@@ -237,25 +249,38 @@ html, body{
 }
 #read_list{
     position: absolute;
-    height: 100%;
+    height: calc(100% - 2px);
     width: 250px;
     background: white;
     top: 0px;
     left: 0px;
     z-index: 999;
+    /* overflow: auto */
+    border: 1px solid rgb(236, 236, 236);
 }
 #read_list_head{
     display: flex;
     height: 40px;
     width: 100%;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    border: 1px solid rgb(236, 236, 236);
+}
+#read_list_content{
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 #read_content{
     /* height: 100%; */
     width: 65%;
     position: relative;
     /* overflow: hidden; */
+}
+.read_list_caption{
+    font-size: 12px; 
+    margin: 10px;
 }
 .card_view{
     border: solid 1px rgb(189, 189, 189);

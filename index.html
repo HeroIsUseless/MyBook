@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>MyBook</title>
     <link rel="stylesheet "type="text/css" href="index.css"/>
+    <!-- <link rel="stylesheet" href="./Lib/bootstrap/css/bootstrap.css"> -->
     <script src="./Lib/jquery.js"> </script>
     <script src="./Lib/vue.min.js"></script>
+	<!-- <script src="./Lib/bootstrap/js/bootstrap.js"></script> -->
   </head>
   <body>
     <div id="app">
@@ -39,7 +41,7 @@
                         <img src="./Resource/Image/tf.jpg" style="height: 100%; width:100%;"/>
                     </div>
                     <div id="home_search">
-                        <div id="home_search_box"></div>
+                        <div id="home_search_box" contenteditable="true"></div>
                         <div id="home_search_bt">搜索</div>
                     </div>
                     <div style="margin: 10px;">推荐</div>
@@ -116,13 +118,14 @@
                     </div>
                     <div id="shelf_content">
                         <template v-for="book in books">
-                            <div class="shelf_book"  v-on:click="book_click">
+                            <div class="shelf_book"  v-on:click="book_click(book)">
                                 <div class="shelf_book_mark">
                                     <p style="font-size: 12px;">有更新</p>
                                 </div>
                                 <div class="shelf_book_cover"></div>
                                 <p class="shelf_book_name">{{book.name}}</p>
                                 <div class="shelf_book_bottom"></div>
+                                
                             </div>
                         </template>
                     </div>
@@ -158,12 +161,13 @@
         <div id="read_page" v-else-if="active_page == 'read_page'">
             <div id="read_list" v-if="read_list_visible == true">
                 <div id="read_list_head">
-                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
-                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
-                    <img src="./Resource/Image/16px/word_count.png" style="height: 16px; width: 16px;"/>
+                    <img src="./Resource/Image/16px/list.png" style="height: 16px; width: 16px;"/>
+                    <img src="./Resource/Image/16px/bookmark_grey.png" style="height: 16px; width: 16px;"/>
                 </div>
                 <div id="read_list_content">
-                    <p>第一章 陨落的天才</p>
+                    <template v-for="chapter in chapters">
+                        <p class="read_list_caption" v-on:click="read_list_caption_click(chapter)">{{chapter.caption}}</p>
+                    </template>
                 </div>
             </div>
             <div id="read_content">
@@ -196,6 +200,8 @@
             </div> -->
         </div>
     </div>
+
+    
 
   </body>
   <script src="./renderer.js"></script>
