@@ -1,6 +1,6 @@
 const electron = require('electron');
-const {ipcRenderer,remote} = electron;
-const {Menu} = remote;
+const {BrowserWindow, ipcRenderer,remote} = electron;
+const {Menu, MenuItem} = remote;
 const nedb = require('nedb');
 const path = require('path');
 const fs = require('fs');
@@ -48,8 +48,24 @@ let mainMenu = Menu.buildFromTemplate([
         },
     ]
   }]);    
-Menu.setApplicationMenu(mainMenu);
+// Menu.setApplicationMenu(mainMenu);
 
+global.sharedObject = {
+    read_list_visible: '000',
+}
+window.showRightClickMenu = function ()
+{
+    // console.log('1232300');
+    // window.addEventListener('contextmenu', (e) => {
+    // e.preventDefault();
+    // menu.popup({ window: remote.getCurrentWindow() });
+    // }, false);    
+    ipcRenderer.send('sigShowRightClickMenu');
+}
+ipcRenderer.on('sigShowRightClickMenu_compete',function(event,data){
+    console.log('sigShowRightClickMenu_compete');
+    app.read_setting_visible = true;
+})
 var app = new Vue({
     el:'#app',
     data:{
@@ -59,8 +75,13 @@ var app = new Vue({
         nav_mark_bottom: 0,
         books:[],
         read_list_visible: false,
+        read_setting_visible: false,
         read_chapter_top: 50,
         chapters:[],
+        chapters_hidden:[],
+        font_size:"15px",
+        font_family:"微软雅黑",
+        page_margin:"10px",
     },
     created() {
         
@@ -97,8 +118,11 @@ var app = new Vue({
                 autoload: true,
             })
              t_db.find({}, function(err, res){
-                app.chapters = res;
+                // app.chapters = res;
+                app.chapters = [{caption: "第一章 陨落的天才", content: "斗之力，三段望着测验魔石碑上面<br\>斗之力，三段望着测验魔石碑上面"}];
+                app.chapters[0] = res[0];
                 app.active_page = 'read_page';
+                app.chapters_hidden = res;
             });
         },
         // 本地导入
@@ -129,6 +153,7 @@ var app = new Vue({
                     var text = iconv.decode(data, 'gbk');
                     app.chapters = novel_slice(text);
                     for(var i=0; i<app.chapters.length; i++){
+                        console.log(app.chapters[i].caption);
                         t_db.insert({
                             caption: app.chapters[i].caption,
                             content: app.chapters[i].content,
@@ -146,25 +171,21 @@ var app = new Vue({
         read_list_click(){
             app.read_list_visible = !app.read_list_visible;
         },
+        setting_close_click(){
+            app.read_setting_visible = false;
+        },
         handleScroll(){
-            // 但是如何实现呢？
-            // 首先比页面多一个至少，最好多一个，采用ajax技术
-            // 然后，等上面的完全移除后，销毁，进度条发生改变
-            // 因此浮动控制面板需要实时控制
-            // 不行，因为一直是向下滚的，因此并不太好
-            // 绝对不可以全部装载，性能太差
-            // 背景必须是一整块不能移动
-            // 那么滚动条如何只针对一个呢？那么只能自己造滚动条了
             if(app.active_page == 'read_page'){
-                // 设备/屏幕高度
-                var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-                // div到头部的距离
-                var scrollTop = scrollObj.scrollTop;
-                // 滚动条的总高度
-                var scrollHeight = scrollObj.scrollHeight;
-                // 滚动到底部的条件
-                if(scrollTop+clientHeight == scrollHeight){
-                    // div到头部的距离+屏幕高度 = 可滚动的总高度
+                // scrollTop 滚动条滚动时，距离顶部的距离
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                // windowHeight 可视区的高度
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                // scrollHeight 滚动条的总高度
+                var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                // 滚动条到底部的条件
+                if(scrollTop + windowHeight == scrollHeight){
+                    // 加载数据
+                    app.chapters.push(app.chapters_hidden[app.chapters.length]);
                 }
             }
         }
@@ -221,7 +242,6 @@ function novel_slice(text){
                     content += text[i];
                     i++;
                 }
-                // 存入数据库
                 var chapter = {caption: caption, content:content};
                 result[res_n] = chapter;
                 res_n += 1;

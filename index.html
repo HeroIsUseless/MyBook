@@ -154,6 +154,14 @@
                             <option value="黑色主题">OSX风格</option>
                         </select>
                     </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>章节切割：</p>
+                        <select>
+                            <option value="白色主题">普通切割</option>
+                            <option value="黑色主题" selected="selected">智能切割</option>
+                            <option value="黑色主题">不切割</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,9 +178,46 @@
                     </template>
                 </div>
             </div>
+            <div id="read_setting"  v-if="read_setting_visible == true">
+                <div id="read_setting_title">
+                    <img id="read_setting_close" src="./Resource/Image/16px/close_grey_small.png" v-on:click="setting_close_click"/>
+                </div>
+                <div id="read_setting_content">
+                    <div id="read_setting_font">
+                        <div id="read_setting_font_family" class="read_setting_item">
+                            <p class="read_setting_text">字体:</p>
+                            <select class="read_setting_select" v-model="font_family" >
+                                <option selected="selected">微软雅黑</option>
+                                <option >宋体</option>
+                                <option >黑体</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_font_size" class="read_setting_item">
+                            <p class="read_setting_text">字体大小:</p>
+                            <select class="read_setting_select" v-model="font_size" >
+                                <option >10px</option>
+                                <option selected="selected">15px</option>
+                                <option >20px</option>
+                            </select>
+                        </div>
+                        <!-- <span>font_size: {{font_size}}</span> -->
+                    </div><!--setting_font-->
+                    <div id="read_setting_page">
+                        <div id="read_setting_page_margin" class="read_setting_item">
+                            <p class="read_setting_text">页边距:</p>
+                            <select class="read_setting_select" v-model="page_margin" >
+                                <option >10px</option>
+                                <option selected="selected">15px</option>
+                                <option >20px</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div id="read_content">
                 <template v-for="chapter in chapters">
-                    <div id="read_chapter" class="card_view" v-bind:style="{top:read_chapter_top+'px'}">
+                    <div id="read_chapter" class="card_view" v-bind:style="{top:read_chapter_top+'px'}" oncontextmenu="showRightClickMenu()">
                         <p id="read_book_caption">{{chapter.caption}}</p>
                             <div id="read_book_info">
                                 <img src="./Resource/Image/16px/word_count.png"/>
@@ -180,14 +225,14 @@
                                 <img src="./Resource/Image/16px/bookmark.png"/>
                                 <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
                             </div>
-                            <div class="read_book_text">{{chapter.content}}</div>
+                            <div class="read_book_text" v-bind:style="{fontSize:font_size}">{{chapter.content}}</div>
                     </div>
                 </template>
                 <div id="read_control_pannel">
                     <div id="read_control_button" v-on:click="read_home_click">
                         <img src="./Resource/Image/32px/home.png" style="height: 20px;width: 20px;"/>
                     </div>
-                    <div id="read_control_button"  v-on:click="read_list_click">
+                    <div id="read_control_button" v-on:click="read_list_click">
                         <img src="./Resource/Image/16px/list.png" style="height: 20px;width: 20px;"/>
                     </div>
                     <div id="read_control_button">
