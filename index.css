@@ -161,19 +161,16 @@ html, body{
 #shelf_head{
     width: 100%;
     height: 50px;
-    /* display: flex;
-    align-items: center; */
-    /* background: red; */
+    display: flex;
+    direction: rtl;
 }
-#shelf_import{
-    position: absolute;
+.shelf_button{
     top: 10px;
     right: 10px;
     margin: 10px;
     padding:2px;
     cursor: pointer;
     border: solid 2px grey;
-    /* background: red; */
 }
 #shelf_content{
     display: flex;
@@ -257,6 +254,7 @@ html, body{
     z-index: 999;
     /* overflow: auto */
     border: 1px solid rgb(236, 236, 236);
+    border-radius: 4px;
 }
 #read_list_head{
     display: flex;
@@ -312,7 +310,6 @@ html, body{
     /* height: 100%; */
     width: 65%;
     position: relative;
-    background: red;
     /* overflow: hidden; */
 }
 .read_list_caption{
@@ -325,6 +322,7 @@ html, body{
     margin: 10px;
     padding: 60px;
     background: white;
+    white-space:pre-wrap
 }
 #read_book_caption{
     font-size: 25px;
@@ -371,4 +369,23 @@ html, body{
     margin-left: 1px;
     margin-right: 1px;
     background: rgb(190, 190, 190);
+}
+/** 控件部分 */
+/** windows风格 */
+.win_button{
+    border: 2px solid grey;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    text-align: center;
+}
+.win_input{
+    border-bottom: 2px solid grey;
+}
+.win_input:focus{
+    outline: none;
+}
+.win_select{
+    border: 2px solid grey;
 }

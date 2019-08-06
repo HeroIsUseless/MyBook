@@ -37,6 +37,8 @@
 * 能有基本的字符串操作，将整本书拆分成章节，并提炼出目录。
 
 ## 日志
+**[heroisuseless， 2019/8/6]**：加了一个导出按钮，做了一些风格css。
+
 **[heroisuseless， 2019/8/5]**：添加设置窗口 ![8.png](./readme_res/8.png)
 
 **[heroisuseless， 2019/8/4]**：添加目录，书签 ![7.png](./readme_res/7.png)

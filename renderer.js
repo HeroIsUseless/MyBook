@@ -82,6 +82,8 @@ var app = new Vue({
         font_size:"15px",
         font_family:"微软雅黑",
         page_margin:"10px",
+        page_padding:"10px",
+        page_style:"默认",
     },
     created() {
         
