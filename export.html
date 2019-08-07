@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>小说导出</title>
+        <link rel="stylesheet "type="text/css" href="index.css"/>
+        <script src="./Lib/vue.min.js"></script>
+    </head>
+    <style>
+        *{
+            overflow-x: hidden;
+        }
+        .item{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
+        }
+    </style>
+    <body>
+        <div id="export_app">
+            <template v-for="book in books">
+                <div class="item">
+                    <div>《{{book.name}}》</div>
+                    <div class="fluent_button" v-on:click="export_button_click(book)" style="margin-right: 20px;">导出</div>
+                </div>
+            </template>
+
+        </div>
+    </body>
+    <script>
+        const electron = require('electron');
+        const {remote} = electron;
+        const { dialog } = remote;
+        const nedb = require('nedb');
+        const path = require('path');
+        const fs = require('fs');
+
+        var app = new Vue({
+            el:"#export_app",
+            data:{
+                books:[],
+            },
+            created() {
+                const main_db = new nedb({
+                    filename: path.join(remote.app.getPath('userData'), '/main.db'),
+                    autoload: true,
+                })                
+                main_db.find({}, function(err, res){
+                    app.books = res;
+                });
+            },
+            methods: {
+                export_button_click(book){
+                    const t_db = new nedb({
+                        filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
+                        autoload: true,
+                    })
+                    t_db.find({}, function(err, res){
+                        var path = dialog.showOpenDialog({
+                        properties: ['openFile', 'openDirectory', 'multiSelections']
+                        });
+                        if(path){
+                            text = "";
+                            for(var i=0; i<res.length; i++){
+                                text += res[i].caption;
+                                text += res[i].content;
+                            }
+                            fs.writeFile(path+'\\'+book.name+".txt", text, function (err) {
+                                if (!err)
+                                    console.log("写入成功！")
+                            });
+                        }
+                    });  
+                }
+            },
+        })  
+    </script>
+</html>

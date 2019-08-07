@@ -73,7 +73,9 @@
                     </div>
                 </div><!-- home_section -->
                 <div id="rank_section" v-else-if="active_section=='rank_section'">
-                    rank
+                    <div class="fluent_button">fluent 按钮</div>
+                    <input class="fluent_input"/>
+                    <div class="material_button" style="margin: 20px;">material 按钮</div>
                 </div><!-- rank_section -->
                 <div id="sort_section" v-else-if="active_section=='sort_section'">
                     <div id="sort_head">
@@ -115,7 +117,7 @@
                 <div id="shelf_section" v-else-if="active_section == 'shelf_section'">
                     <div id="shelf_head">
                         <p id="shelf_import" class="shelf_button" v-on:click="shelf_import_click">本地导入</p>
-                        <p id="shelf_outport" class="shelf_button">导出</p>
+                        <p id="shelf_outport" class="shelf_button" v-on:click="shelf_export_click">导出</p>
                     </div>
                     <div id="shelf_content">
                         <template v-for="book in books">
@@ -223,27 +225,27 @@
                         <div id="read_setting_page_style" class="read_setting_item">
                             <p class="read_setting_text">页面样式:</p>
                             <select class="read_setting_select" v-model="page_style" >
-                                <option >默认</option>
-                                <option selected="selected">起点中文网</option>
-                                <option >创世中文网</option>
-                                <option >网易阅读</option>
-                                <option >可穿戴科技</option>
+                                <option selected="selected" value="card_view">起点中文网</option>
+                                <option  value="card_view_chuangshi">创世中文网</option>
+                                <option  value="card_view_wangyi">网易阅读</option>
+                                <option  value="card_view_tadu">塔读文学</option>
+                                <option value="card_view_default">可穿戴科技</option>
                             </select>
                         </div>
                         <div id="read_setting_page_background" class="read_setting_item">
                             <p class="read_setting_text">背景色:</p>
                             <select class="read_setting_select" v-model="page_style" >
-                                <option >默认</option>
-                                <option selected="selected">起点</option>
-                                <option >可穿戴科技</option>
+                                <option >蓝色</option>
+                                <option selected="selected">黑色</option>
+                                <option >白色</option>
                             </select>
                         </div>
                         <div id="read_setting_page_foreground" class="read_setting_item">
                             <p class="read_setting_text">前景色:</p>
                             <select class="read_setting_select" v-model="page_style" >
-                                <option >默认</option>
-                                <option selected="selected">起点</option>
-                                <option >可穿戴科技</option>
+                                <option >蓝色</option>
+                                <option selected="selected">黑色</option>
+                                <option >白色</option>
                             </select>
                         </div>
 
@@ -252,7 +254,7 @@
             </div>
             <div id="read_content">
                 <template v-for="chapter in chapters">
-                    <div id="read_chapter" class="card_view" v-bind:style="{top:read_chapter_top+'px'}" oncontextmenu="showRightClickMenu()">
+                    <div id="read_chapter" v-bind:class="[page_style]" v-bind:style="{top:read_chapter_top+'px'}" oncontextmenu="showRightClickMenu()">
                         <p id="read_book_caption">{{chapter.caption}}</p>
                             <div id="read_book_info">
                                 <img src="./Resource/Image/16px/word_count.png"/>

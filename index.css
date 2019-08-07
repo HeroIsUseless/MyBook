@@ -101,6 +101,10 @@ html, body{
     justify-content: center;
     align-items: center;
 }
+#rank_section{
+    width: 100%;
+    height: 100%;
+}
 #sort_section{
     height: 100%;
     width: 100%;
@@ -270,6 +274,13 @@ html, body{
     overflow-y: auto;
     overflow-x: hidden;
 }
+.read_list_caption{
+    width: 100%;
+    cursor: pointer;
+}
+.read_list_caption:hover{
+    background: rgb(236, 236, 236);
+}
 #read_setting{
     position: absolute;
     height: calc(100% - 2px);
@@ -371,21 +382,81 @@ html, body{
     background: rgb(190, 190, 190);
 }
 /** 控件部分 */
-/** windows风格 */
-.win_button{
-    border: 2px solid grey;
-    padding-left: 5px;
-    padding-right: 5px;
+/** fluent风格 */
+.fluent_button{
+    height: fit-content;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 1px;
     padding-bottom: 2px;
     text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid grey;
 }
-.win_input{
+.fluent_input{
+    width: 150px;
+    border: none;
     border-bottom: 2px solid grey;
 }
-.win_input:focus{
+.fluent_input:focus{
     outline: none;
+    border-bottom: 2px solid rgb(73, 73, 73);
 }
-.win_select{
+.fluent_select{
     border: 2px solid grey;
+}
+/** Material风格 */
+.material_button{
+    height: fit-content;
+    width: fit-content;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: #03a9f4;
+    border-radius: 2px;
+    transition: all .3s ease-out;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.225);
+}
+.material_button:hover{
+  background-color: #23b9fc;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
+}
+.card_view_default{
+    margin: 10px;
+    padding: 60px;
+    white-space:pre-wrap;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0px 0.55px 2.42px rgba(0,0,0,0.12), 0px 1.01px 2.32px rgba(0,0,0,0.24);
+}
+.card_view_chuangshi{
+    background: #F6F4EC;
+    margin: 10px;
+    padding: 60px;
+    white-space: pre-wrap;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 0 #CCC;  
+}
+.card_view_tadu{
+    margin: 10px;
+    padding: 60px;
+    white-space: pre-wrap;
+    background: #f6f4ec!important;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+.card_view_wangyi{
+    margin: 10px;
+    padding: 60px;
+    background: #FCF3EA;
+    white-space: pre-wrap;
+    border: 1px solid #fcf3ea;
+    box-shadow: 3px 3px 8px -3px #838383;
 }

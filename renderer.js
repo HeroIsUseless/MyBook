@@ -77,13 +77,14 @@ var app = new Vue({
         read_list_visible: false,
         read_setting_visible: false,
         read_chapter_top: 50,
+        card_view: "card_view_default",
         chapters:[],
         chapters_hidden:[],
         font_size:"15px",
         font_family:"微软雅黑",
         page_margin:"10px",
         page_padding:"10px",
-        page_style:"默认",
+        page_style:"card_view",
     },
     created() {
         
@@ -127,6 +128,10 @@ var app = new Vue({
                 app.chapters_hidden = res;
             });
         },
+        // 导出
+        shelf_export_click(){
+            ipcRenderer.send('sigShowExportWindow');
+        },
         // 本地导入
         shelf_import_click(){
             // 打开文件选择窗口
@@ -166,7 +171,13 @@ var app = new Vue({
                 app.active_page = "read_page";
             }
         },
-        read_list_caption_click(chapter){},
+        read_list_caption_click(chapter){
+            var res = app.chapters_hidden.find((l_chapter)=>{
+                return l_chapter.caption == chapter.caption;
+            });
+            app.chapters = [];
+            app.chapters[0] = res;
+        },
         read_home_click(){
             app.active_page = 'main_page';
         },

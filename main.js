@@ -3,6 +3,7 @@ const url = require('url')
 const {app, ipcMain, BrowserWindow, Menu, MenuItem} = require('electron')
 
 let mainWindow
+let exportWindow
 
 function createWindow () {
     // 隐藏菜单栏
@@ -11,12 +12,12 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {"nodeIntegration":true}
-  })
+  });
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
-  }))
+  }));
 
   //mainWindow.webContents.openDevTools();
 
@@ -51,4 +52,24 @@ ipcMain.on('sigShowRightClickMenu', (event) => {
     const win = BrowserWindow.fromWebContents(event.sender);
 
     menu.popup(win);
+});
+ipcMain.on('sigShowExportWindow', (event) => {
+  exportWindow = new BrowserWindow({    
+    title: '导出小说', // 窗口标题
+    width: 300, // 宽
+    height: 400, // 高
+    resizable: true, // 窗口大小是否可变
+    frame: true, // 是否带边框
+    parent: mainWindow, // 父窗口
+    modal: true, // 是否模态窗口
+    show: true, // 是否显示窗口
+    webPreferences: {"nodeIntegration":true},
+  });
+  exportWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'export.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+  
+  //exportWindow.webContents.openDevTools();
 });
