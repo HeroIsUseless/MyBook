@@ -38,6 +38,8 @@
 
 ## 日志
 
+**[heroisuseless， 2019/8/12]**：搞定小说文件转码，另外-----好像断更了6天，罪过罪过。。。
+
 **[heroisuseless， 2019/8/7]**：为导出按钮添加逻辑功能，风格的列表vue双向绑定。
 ![9.png](./readme_res/9.png)
 ![10.png](./readme_res/10.png)
@@ -46,7 +48,6 @@
 ![13.png](./readme_res/13.png)
 ![14.png](./readme_res/14.png)
 
-**[heroisuseless， 2019/8/12]**：搞定小说文件转码，另外-----好像断更了6天，罪过罪过。。。
 
 **[heroisuseless， 2019/8/6]**：加了一个导出按钮，做了一些风格css。
 
