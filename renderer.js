@@ -69,40 +69,45 @@ ipcRenderer.on('sigShowRightClickMenu_compete',function(event,data){
 var app = new Vue({
     el:'#app',
     data:{
-        active_page: "main_page",
-        active_section: 'home_section',
-        nav_mark_top: 0,
+        active_page: "main_page", // 在主界面和阅读界面之间切换
+        active_section: 'home_section', // 主界面的各部分之间的切换
+        nav_mark_top: 0, // 导航栏的高亮标志
         nav_mark_bottom: 0,
-        books:[],
-        read_list_visible: false,
-        read_setting_visible: false,
-        read_chapter_top: 50,
-        card_view: "card_view_default",
-        chapters:[],
-        chapters_hidden:[],
-        font_size:"15px",
-        font_family:"微软雅黑",
-        page_margin:"10px",
-        page_padding:"10px",
-        page_style:"card_view",
+        books:[], // 数据库里的总书籍名称
+        read_list_visible: false, // 阅读界面目录-书签栏的显示
+        read_list_mode: "read_caption", // 
+        read_list_bookmark:"./Resource/Image/16px/bookmark.png", // 阅读界面目录按钮高亮
+        read_list_caption:"./Resource/Image/16px/list_grey.png", // 阅读界面书签按钮高亮
+        read_setting_visible: false, // 阅读界面设置栏的显示
+        read_top: 0, // emmm，忘记了，但是删掉它会报错
+        card_view: "card_view_default", // 阅读界面样式
+        chapters:[], // 在阅读界面时的总章节，用于加载html
+        chapters_hidden:[], // 在阅读界面的隐藏章节，用于幕后控制
+        now_chapter:0, // 用于点击书签栏的时候设置初始章节
+        font_size:"15px", // 阅读界面字体大小
+        font_family:"微软雅黑", // 阅读界面字体样式
+        page_margin:"10px", // 阅读界面的卡片宽度
+        page_padding:"10px", // 阅读界面的内边距
+        page_style:"card_view", // 阅读界面样式？？？？
+        is_loading: false, // 用来进行加载loading界面
     },
     created() {
         
     },
     methods: {
-        home_click(){
+        nav_home_click(){
             app.active_section = 'home_section';
             app.nav_mark_top = 0;
         },
-        rank_click(){
+        nav_rank_click(){
             app.active_section = 'rank_section';
             app.nav_mark_top = 50;
         },
-        sort_click(){
+        nav_sort_click(){
             app.active_section = 'sort_section';
             app.nav_mark_top = 100;
         },
-        shelf_click(){
+        nav_shelf_click(){
             app.active_section = 'shelf_section';
             app.nav_mark_top = 150;
             app.books = [];
@@ -110,22 +115,25 @@ var app = new Vue({
                 app.books = res;
             });
         },
-        setting_click(){
+        nav_setting_click(){
             app.active_section = 'setting_section';
 
         },
-        // 没什么办法能够获取欸
+        // 书点击打开阅读界面功能 
         book_click(book){
+            app.is_loading = true;
             const t_db = new nedb({
                 filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
                 autoload: true,
             })
-             t_db.find({}, function(err, res){
-                // app.chapters = res;
+            // console.log("fine")
+            t_db.find({}, function(err, res){
+                // console.log(res)
                 app.chapters = [{caption: "第一章 陨落的天才", content: "斗之力，三段望着测验魔石碑上面<br\>斗之力，三段望着测验魔石碑上面"}];
-                app.chapters[0] = res[0];
-                app.active_page = 'read_page';
                 app.chapters_hidden = res;
+                app.chapters[0] = res[0];
+                app.is_loading = false;
+                app.active_page = 'read_page';
             });
         },
         // 导出
@@ -153,38 +161,62 @@ var app = new Vue({
                     filename: path.join(remote.app.getPath('userData'), '/' + name + '.db'),
                     autoload: true,
                 });
+                // 先删除所有记录
+                t_db.remove({}, { multi: true }, function (err, numRemoved) {});
                 // 提取小说内容并转码
                 var iconv = require('iconv-lite');
                 // 切割小说章节并存入数据库
                 fs.readFile(filePath, function(err, data){
-                    var text = iconv.decode(data, 'gbk');
-                    app.chapters = novel_slice(text);
-                    for(var i=0; i<app.chapters.length; i++){
-                        console.log(app.chapters[i].caption);
-                        t_db.insert({
-                            caption: app.chapters[i].caption,
-                            content: app.chapters[i].content,
+                    app.is_loading = true;
+                    var text = iconv.decode(data, fileType(data)); // 转码操作
+                    app.chapters_hidden = novel_slice(text); // 切割小说章节
+                    for(var i=0; i<app.chapters_hidden.length; i++){
+                        t_db.insert({ // 插入数据库
+                            caption: app.chapters_hidden[i].caption,
+                            content: app.chapters_hidden[i].content,
                         });
                     }
+                    app.is_loading = false;
+                    // // 打开阅读界面
+                    app.chapters[0] = app.chapters_hidden[0];
+                    app.active_page = "read_page";
                 });
-                // 打开阅读界面
-                app.active_page = "read_page";
             }
         },
         read_list_caption_click(chapter){
             var res = app.chapters_hidden.find((l_chapter)=>{
                 return l_chapter.caption == chapter.caption;
             });
+            var i = 0;
+            while(app.chapters_hidden[i].caption != chapter.caption){
+                i+=1;
+            }
+            app.now_chapter = i;
             app.chapters = [];
+            window.scrollTo(0,0);
             app.chapters[0] = res;
         },
-        read_home_click(){
+        read_list_head_caption_click(){
+            app.read_list_bookmark = "./Resource/Image/16px/bookmark.png";
+            app.read_list_caption = "./Resource/Image/16px/list_grey.png";
+            app.read_list_mode = "read_caption";
+        },
+        read_list_head_bookmark_click(){
+            app.read_list_caption = "./Resource/Image/16px/list.png";
+            app.read_list_bookmark = "./Resource/Image/16px/bookmark_grey.png";
+            app.read_list_mode = "read_bookmark";
+        },
+        read_pannel_home_click(){
             app.active_page = 'main_page';
         },
-        read_list_click(){
+        read_pannel_list_click(){
             app.read_list_visible = !app.read_list_visible;
         },
         setting_close_click(){
+            app.read_setting_visible = false;
+        },
+        read_content_click(){
+            app.read_list_visible = false;
             app.read_setting_visible = false;
         },
         handleScroll(){
@@ -198,7 +230,7 @@ var app = new Vue({
                 // 滚动条到底部的条件
                 if(scrollTop + windowHeight == scrollHeight){
                     // 加载数据
-                    app.chapters.push(app.chapters_hidden[app.chapters.length]);
+                    app.chapters.push(app.chapters_hidden[app.chapters.length+app.now_chapter]);
                 }
             }
         }
@@ -211,7 +243,19 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
 })
-
+// 小说文件解码操作
+function fileType(buffer){             
+    if (buffer[0] == 0xff && buffer[1] == 0xfe) {
+        return 'utf16'
+    } else if (buffer[0] == 0xfe && buffer[1] == 0xff) {
+        return 'utf16'
+    } else if (buffer[0] == 0xef && buffer[1] == 0xbb) {
+        return 'utf8'
+    } else {
+        return 'GBK'
+    }
+}
+// 判断是不是数字
 function isNumber(char){
     if(char == '1' || char == '一') return true;
     else if(char == '2' || char == '二') return true;
@@ -226,7 +270,7 @@ function isNumber(char){
     else if(char == ' ') return true;
     else return false;
 }
-
+// 小说章节切割函数
 function novel_slice(text){
     var result = new Array();
     var res_n = 0;

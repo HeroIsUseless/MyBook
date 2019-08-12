@@ -4,49 +4,76 @@
     <meta charset="UTF-8">
     <title>MyBook</title>
     <link rel="stylesheet "type="text/css" href="index.css"/>
-    <!-- <link rel="stylesheet" href="./Lib/bootstrap/css/bootstrap.css"> -->
+    <link rel="stylesheet "type="text/css" href="control_style.css"/>
     <script src="./Lib/jquery.js"> </script>
     <script src="./Lib/vue.min.js"></script>
-	<!-- <script src="./Lib/bootstrap/js/bootstrap.js"></script> -->
   </head>
   <body>
     <div id="app">
         <div id="main_page"  v-if="active_page == 'main_page'">
             <div id="navigation">
-                <div id="" class="nav_item" v-on:click="home_click">
+                <div id="" class="nav_item" v-on:click="nav_home_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/home.png"/>
                     <p class="nav_item_text">主页</p> 
                 </div>
-                <div id="" class="nav_item" v-on:click="rank_click">
+                <div id="" class="nav_item" v-on:click="nav_rank_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/rank.png"/>
                     <p class="nav_item_text">排行榜</p> 
                 </div>
-                <div id="" class="nav_item" v-on:click="sort_click">
+                <div id="" class="nav_item" v-on:click="nav_sort_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/sort.png"/>
                     <p class="nav_item_text">分类</p> 
                 </div>
-                <div id="" class="nav_item" v-on:click="shelf_click">
+                <div id="" class="nav_item" v-on:click="nav_shelf_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/shelf.png"/>
                     <p class="nav_item_text">书架</p> 
                 </div>
-                <div id="nav_setting" class="nav_item" v-on:click="setting_click">
+                <div id="nav_setting" class="nav_item" v-on:click="nav_setting_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/setting.png"/>
                     <p class="nav_item_text">设置</p> 
                 </div>
                 <div class="nav_mark" v-bind:style="{top:nav_mark_top+'px', bottom:nav_mark_bottom+'px'}"> </div>
             </div>
             <div id="section">
-    <div id="home_section" v-if="active_section=='home_section'">
-                    <div id="home_broad">
+                <div id="home_section" v-if="active_section=='home_section'">
+                    <div id="home_board">
                         <img src="./Resource/Image/tf.jpg" style="height: 100%; width:100%;"/>
                     </div>
                     <div id="home_search">
-                        <div id="home_search_box" contenteditable="true"></div>
-                        <div id="home_search_bt">搜索</div>
+                        <input id="home_search_box" class="fluent_input" contenteditable="true"/>
+                        <div id="home_search_button" class="fluent_button">搜索</div>
                     </div>
                     <div style="margin: 10px;">推荐</div>
                     <div id="home_list">
-                        <div class="sort_item">
+                    <div style="margin: 10px;">网络未连接</div>
+                        <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
+                        <div id="home_refresh_button" class="fluent_float_button">
+                            <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
+                        </div>   
+                    </div>
+                </div><!-- home_section -->
+                <div id="rank_section" v-else-if="active_section=='rank_section'">
+                        <div style="margin: 10px;">网络未连接</div>
+                        <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
+                </div><!-- rank_section -->
+                <div id="sort_section" v-else-if="active_section=='sort_section'">
+                    <div id="sort_head">
+                        <ul class="fluent_navigation">
+                            <li class="fluent_nav_item">玄幻</li>
+                            <li class="fluent_nav_item">奇幻</li>
+                            <li class="fluent_nav_item">武侠</li>
+                            <li class="fluent_nav_item">仙侠</li>
+                            <li class="fluent_nav_item">都市</li>
+                            <li class="fluent_nav_item">现实</li>
+                            <li class="fluent_nav_item">军事</li>
+                            <li class="fluent_nav_item">历史</li>
+                        </ul>
+                    </div>
+                    <div id="sort_head_mark"></div>
+                    <div class="sort_list">
+                        <div style="margin: 10px;">网络未连接</div>
+                        <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
+                        <!-- <div class="sort_item">
                             <div class="sort_book">
                                 <img src="./Resource/Image/book.jpg"/>
                             </div>
@@ -65,59 +92,16 @@
                                 <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
                                 <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
                             </div>
-                        </div>
-                        
-                        <div id="sort_refresh">
-                            <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
-                        </div>   
+                        </div> -->
                     </div>
-                </div><!-- home_section -->
-                <div id="rank_section" v-else-if="active_section=='rank_section'">
-                    <div class="fluent_button">fluent 按钮</div>
-                    <input class="fluent_input"/>
-                    <div class="material_button" style="margin: 20px;">material 按钮</div>
-                </div><!-- rank_section -->
-                <div id="sort_section" v-else-if="active_section=='sort_section'">
-                    <div id="sort_head">
-                        <p class="sort_head_item">玄幻</p>
-                        <p class="sort_head_item">奇幻</p>
-                        <p class="sort_head_item">武侠</p>
-                        <p class="sort_head_item">仙侠</p>
-                        <p class="sort_head_item">都市</p>
-                        <p class="sort_head_item">现实</p>
-                        <p class="sort_head_item">军事</p>
-                        <p class="sort_head_item">历史</p>
-
-                    </div>
-                    <div id="sort_head_mark"></div>
-                    <div class="sort_item">
-                        <div class="sort_book">
-                            <img src="./Resource/Image/book.jpg"/>
-                        </div>
-                        <div class="sort_book_info">
-                            <p class="sort_book_name">斗破苍穹</p>
-                            <p style="font-size: 12px; color:grey;">这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！</p>
-                            <p style="font-size: 12px; color: grey; margin-top: 35px;">天蚕土豆</p>
-                        </div>
-                    </div>
-                    <div class="sort_item">
-                        <div class="sort_book">
-                            <img src="./Resource/Image/book2.jpg"/>
-                        </div>
-                        <div class="sort_book_info">
-                            <p class="sort_book_name">斗罗大陆</p>
-                            <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
-                            <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
-                        </div>
-                    </div>
-                    <div id="sort_refresh">
+                    <div id="sort_refresh_button" class="fluent_float_button">
                         <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
                     </div>                
                 </div><!-- sort_section -->
                 <div id="shelf_section" v-else-if="active_section == 'shelf_section'">
                     <div id="shelf_head">
-                        <p id="shelf_import" class="shelf_button" v-on:click="shelf_import_click">本地导入</p>
-                        <p id="shelf_outport" class="shelf_button" v-on:click="shelf_export_click">导出</p>
+                        <p id="shelf_import_button" class="fluent_button" v-on:click="shelf_import_click">本地导入</p>
+                        <p id="shelf_outport_button" class="fluent_button" v-on:click="shelf_export_click">导出</p>
                     </div>
                     <div id="shelf_content">
                         <template v-for="book in books">
@@ -168,17 +152,49 @@
                 </div>
             </div>
         </div>
+        <div id="read_page" v-else-if="active_page == 'read_page'" v-bind:style="{top:read_top+'px'}">
         <!-- <div id="read_background" v-else-if="active_page == 'read_page'"></div> -->
-        <div id="read_page" v-else-if="active_page == 'read_page'">
+            <div id="read_content">
+                <template v-for="chapter in chapters">
+                    <div id="read_chapter" v-bind:class="[page_style]" v-on:click="read_content_click" oncontextmenu="showRightClickMenu()">
+                        <p id="read_book_caption">{{chapter.caption}}</p>
+                            <div id="read_book_info">
+                                <img src="./Resource/Image/16px/word_count.png"/>
+                                <p>&nbsp; {{chapter.content.length}}字&nbsp;&nbsp;&nbsp;</p>
+                                <img src="./Resource/Image/16px/bookmark.png"/>
+                                <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
+                            </div>
+                            <div class="read_book_text" v-bind:style="{fontSize:font_size, fontFamily:font_family}">{{chapter.content}}</div>
+                    </div>
+                </template>
+                <div id="read_control_pannel">
+                    <div id="read_control_button" v-on:click="read_pannel_home_click">
+                        <img src="./Resource/Image/32px/home.png" style="height: 20px;width: 20px;"/>
+                    </div>
+                    <div id="read_control_button" v-on:click="read_pannel_list_click">
+                        <img src="./Resource/Image/16px/list_grey.png" style="height: 20px;width: 20px;"/>
+                    </div>
+                    <div id="read_control_button">
+                        <img src="./Resource/Image/16px/to_top.png" style="height: 16px;width: 16px;"/>
+                    </div>
+                </div>
+            </div><!--read_content-->
             <div id="read_list" v-if="read_list_visible == true">
                 <div id="read_list_head">
-                    <img src="./Resource/Image/16px/list.png" style="height: 16px; width: 16px;"/>
-                    <img src="./Resource/Image/16px/bookmark_grey.png" style="height: 16px; width: 16px;"/>
+                    <div class="read_list_head_button" v-on:click="read_list_head_caption_click">
+                        <img v-bind:src="read_list_caption" style="height: 16px; width: 16px;"/>
+                    </div>
+                    <div class="read_list_head_button" v-on:click="read_list_head_bookmark_click">
+                        <img v-bind:src="read_list_bookmark" style="height: 16px; width: 16px;"/>
+                    </div>
                 </div>
-                <div id="read_list_content">
+                <div id="read_list_content" v-if="read_list_mode == 'read_caption'">
                     <template v-for="chapter in chapters_hidden">
                         <p class="read_list_caption" v-on:click="read_list_caption_click(chapter)">{{chapter.caption}}</p>
                     </template>
+                </div>
+                <div id="read_bookmark_content" v-if="read_list_mode == 'read_bookmark'">
+
                 </div>
             </div>
             <div id="read_setting"  v-if="read_setting_visible == true">
@@ -252,36 +268,14 @@
                     </div>
                 </div>
             </div>
-            <div id="read_content">
-                <template v-for="chapter in chapters">
-                    <div id="read_chapter" v-bind:class="[page_style]" v-bind:style="{top:read_chapter_top+'px'}" oncontextmenu="showRightClickMenu()">
-                        <p id="read_book_caption">{{chapter.caption}}</p>
-                            <div id="read_book_info">
-                                <img src="./Resource/Image/16px/word_count.png"/>
-                                <p>&nbsp; {{chapter.content.length}}字&nbsp;&nbsp;&nbsp;</p>
-                                <img src="./Resource/Image/16px/bookmark.png"/>
-                                <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
-                            </div>
-                            <div class="read_book_text" v-bind:style="{fontSize:font_size}">{{chapter.content}}</div>
-                    </div>
-                </template>
-                <div id="read_control_pannel">
-                    <div id="read_control_button" v-on:click="read_home_click">
-                        <img src="./Resource/Image/32px/home.png" style="height: 20px;width: 20px;"/>
-                    </div>
-                    <div id="read_control_button" v-on:click="read_list_click">
-                        <img src="./Resource/Image/16px/list.png" style="height: 20px;width: 20px;"/>
-                    </div>
-                    <div id="read_control_button">
-                        <img src="./Resource/Image/16px/to_top.png" style="height: 16px;width: 16px;"/>
-                    </div>
-                </div>
-            </div>
             <!-- <div id="scroll_bar">
                 <div id="scroll_block"></div>
             </div> -->
+        </div><!--read_page-->
+        <div id="loading_page" v-if="is_loading == true">
+            <img src="./Resource/Image/64px/loading_light.png" style="height: 64px; width:64px;"/>
         </div>
-    </div>
+    </div><!--app-->
 
     
 

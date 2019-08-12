@@ -1,0 +1,112 @@
+/** 控件部分 */
+/** fluent风格 */
+.fluent_button{
+    height: fit-content;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid grey;
+}
+.fluent_float_button{
+    height: 40px;
+    width: 40px;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 5px;
+    background: rgb(218, 218, 218);
+}
+.fluent_input{
+    border: none;
+    border-bottom: 2px solid grey;
+}
+.fluent_input:focus{
+    outline: none;
+    border-bottom: 2px solid rgb(73, 73, 73);
+}
+.fluent_navigation{
+    display: flex;
+}
+.fluent_nav_item{
+    list-style-type: none;
+    margin: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.fluent_select{
+    border: 2px solid grey;
+}
+/** Material风格 */
+.material_button{
+    height: fit-content;
+    width: fit-content;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: #03a9f4;
+    border-radius: 2px;
+    transition: all .3s ease-out;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.225);
+}
+.material_button:hover{
+  background-color: #23b9fc;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
+}
+.card_view_default{
+    margin: 10px;
+    padding: 60px;
+    white-space:pre-wrap;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0px 0.55px 2.42px rgba(0,0,0,0.12), 0px 1.01px 2.32px rgba(0,0,0,0.24);
+}
+.card_view_chuangshi{
+    background: #F6F4EC;
+    margin: 10px;
+    padding: 60px;
+    white-space: pre-wrap;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 0 #CCC;  
+}
+.card_view_tadu{
+    margin: 10px;
+    padding: 60px;
+    white-space: pre-wrap;
+    background: #f6f4ec!important;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+.card_view_wangyi{
+    margin: 10px;
+    padding: 60px;
+    background: #FCF3EA;
+    white-space: pre-wrap;
+    border: 1px solid #fcf3ea;
+    box-shadow: 3px 3px 8px -3px #838383;
+}
+#scroll_bar{
+    height: 100%;
+    width: 15px;
+    border-left: 1px solid grey;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: white;
+    display: flex;
+}
+#scroll_block{
+    height: 50px;
+    width: 13px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background: rgb(190, 190, 190);
+}

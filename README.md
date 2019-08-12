@@ -46,6 +46,8 @@
 ![13.png](./readme_res/13.png)
 ![14.png](./readme_res/14.png)
 
+**[heroisuseless， 2019/8/12]**：搞定小说文件转码，另外-----好像断更了6天，罪过罪过。。。
+
 **[heroisuseless， 2019/8/6]**：加了一个导出按钮，做了一些风格css。
 
 **[heroisuseless， 2019/8/5]**：添加设置窗口 ![8.png](./readme_res/8.png)

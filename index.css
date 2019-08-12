@@ -1,28 +1,38 @@
 *{
+    position: relative;
     padding: 0px;
     margin: 0px;
     font-family:'微软雅黑';
+    /* background: grey;
+    color: white; */
 }
 html, body{
     height: 100%;
 }
 #app{
-    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#loading_page{
+    position: fixed;
+    top: 0px;
+    left: 0px;
     height: 100%;
     width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(128,128,128,0.7);
 }
 #main_page{
     height: 100%;
     width: 100%;
     display: flex;
-
 }
 #navigation{
     height: 100%;
     width: 30%;
     background: rgb(214, 214, 214);
-    position: relative;
 }
 .nav_item{
     width: 100%;
@@ -56,14 +66,13 @@ html, body{
 #section{
     height: 100%;
     width: 70%;
-
 }
 #home_section{
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden;/**TODO:*/
 }
-#home_broad{
+#home_board{
     height: 200px;
     width: 100%;
     background: grey;
@@ -82,28 +91,19 @@ html, body{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 2px solid grey;
 }
-#home_search_box:focus{
-    outline:none;
-}
-#home_search_bt{
-    width: 40px;
-    height: 20px;
-    border: 2px solid grey;
+#home_search_button{
     margin: 5px;
-    cursor: pointer;
-    padding: 1px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+#home_refresh_button{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
 #rank_section{
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 #sort_section{
     height: 100%;
@@ -114,11 +114,6 @@ html, body{
     height: 32px;
     display: flex;
     align-items: center;
-}
-.sort_head_item{
-    margin: 5px;
-    font-size: 15px;
-    cursor: pointer;
 }
 #sort_head_mark{
     height: 2px;
@@ -149,14 +144,10 @@ html, body{
     margin-left:0px; 
     margin-bottom: 10px;
 }
-#sort_refresh{
-    position: absolute;
-    height: 40px;
-    width: 40px;
+#sort_refresh_button{
+    position: fixed;
     bottom: 20px;
     right: 20px;
-    border-radius: 5px;
-    background: rgb(218, 218, 218);
 }
 #shelf_section{
     width: 100%;
@@ -166,15 +157,11 @@ html, body{
     width: 100%;
     height: 50px;
     display: flex;
+    align-items: center;
     direction: rtl;
 }
-.shelf_button{
-    top: 10px;
-    right: 10px;
+#shelf_import_button{
     margin: 10px;
-    padding:2px;
-    cursor: pointer;
-    border: solid 2px grey;
 }
 #shelf_content{
     display: flex;
@@ -229,103 +216,25 @@ html, body{
     border-top-right-radius: 0px;
     background: linear-gradient(40deg, white, rgb(204, 204, 204));
 }
+/**必要的分割线********************/
 #read_background{
-    position: absolute;
+    /* position: absolute; */
     top: 0px;
     left: 0px;
     height: 100%;
     width: 100%;
-    background: red;
-    z-index: 1;
+    background: blue;
+    z-index: -1;
 }
 #read_page{
-    position: relative;
     min-height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
-    /* overflow: hidden; */
     background: rgb(236, 236, 236);
-     z-index: 9;
-}
-#read_list{
-    position: absolute;
-    height: calc(100% - 2px);
-    width: 250px;
-    background: white;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-    /* overflow: auto */
-    border: 1px solid rgb(236, 236, 236);
-    border-radius: 4px;
-}
-#read_list_head{
-    display: flex;
-    height: 40px;
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
-    border: 1px solid rgb(236, 236, 236);
-}
-#read_list_content{
-    width: 100%;
-    height: calc(100% - 40px);
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.read_list_caption{
-    width: 100%;
-    cursor: pointer;
-}
-.read_list_caption:hover{
-    background: rgb(236, 236, 236);
-}
-#read_setting{
-    position: absolute;
-    height: calc(100% - 2px);
-    width: 300px;
-    background: white;
-    top: 0px;
-    right: 0px;
-    z-index: 999;
-    border: 1px solid rgb(236, 236, 236);
-}
-#read_setting_title{
-    width: 100%;
-    height: 30px;
-    display: flex;
-    direction: rtl;
-}
-#read_setting_close{
-    width: 16px; 
-    height: 16px; 
-    margin: 7px;
-}
-.read_setting_text{
-    font-size: 14px;
-    margin: 10px;
-}
-.read_setting_item{
-    display: flex;
-    align-items: center;
-}
-.read_setting_select{
-    border: 2px solid grey;
-
-}
-.read_setting_select:focus{
-    outline: none;
 }
 #read_content{
-    /* height: 100%; */
-    width: 65%;
-    position: relative;
-    /* overflow: hidden; */
-}
-.read_list_caption{
-    font-size: 12px; 
-    margin: 10px;
+    width: 70%;
 }
 .card_view{
     border: solid 1px rgb(189, 189, 189);
@@ -349,9 +258,9 @@ html, body{
     font-size: 18px;
 }
 #read_control_pannel{
-    position: absolute;
-    right: -60px;
-    bottom: 40px;
+    position: fixed;
+    left: 85%;
+    bottom: 20px;
 
 }
 #read_control_button{
@@ -364,99 +273,87 @@ html, body{
     border: solid 1px rgb(190, 181, 181);
     background: white;
 }
-#scroll_bar{
-    height: 100%;
-    width: 15px;
-    border-left: 1px solid grey;
-    position: absolute;
+#read_list{
+    position: fixed;
+    height: calc(100% - 2px);
+    width: 260px;
+    background: white;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    border: 1px solid rgb(236, 236, 236);
+    border-radius: 4px;
+}
+#read_list_head{
+    display: flex;
+    height: 40px;
+    width: 100%;
+    border: 1px solid rgb(236, 236, 236);
+}
+.read_list_head_button{
+    height: 40px;
+    width: 130px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.read_list_head_button:hover{
+    /* background: grey; */
+}
+#read_list_content{
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.read_list_caption{
+    width: 100%;
+    cursor: pointer;
+    font-size: 12px; 
+    padding: 10px;
+}
+.read_list_caption:hover{
+    background: rgb(236, 236, 236);
+}
+#read_bookmark_content{
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: red;
+}
+#read_setting{
+    position: fixed;
+    height: calc(100% - 2px);
+    width: 300px;
+    background: white;
     top: 0px;
     right: 0px;
-    background: white;
+    border: 1px solid rgb(236, 236, 236);
+}
+#read_setting_title{
+    width: 100%;
+    height: 30px;
     display: flex;
+    direction: rtl;
 }
-#scroll_block{
-    height: 50px;
-    width: 13px;
-    margin-left: 1px;
-    margin-right: 1px;
-    background: rgb(190, 190, 190);
+#read_setting_close{
+    width: 16px; 
+    height: 16px; 
+    margin: 7px;
 }
-/** 控件部分 */
-/** fluent风格 */
-.fluent_button{
-    height: fit-content;
-    width: fit-content;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 1px;
-    padding-bottom: 2px;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
+.read_setting_text{
+    font-size: 14px;
+    margin: 10px;
+}
+.read_setting_item{
+    display: flex;
+    align-items: center;
+}
+.read_setting_select{
     border: 2px solid grey;
 }
-.fluent_input{
-    width: 150px;
-    border: none;
-    border-bottom: 2px solid grey;
-}
-.fluent_input:focus{
+.read_setting_select:focus{
     outline: none;
-    border-bottom: 2px solid rgb(73, 73, 73);
 }
-.fluent_select{
-    border: 2px solid grey;
-}
-/** Material风格 */
-.material_button{
-    height: fit-content;
-    width: fit-content;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    color: white;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background: #03a9f4;
-    border-radius: 2px;
-    transition: all .3s ease-out;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.225);
-}
-.material_button:hover{
-  background-color: #23b9fc;
-  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
-}
-.card_view_default{
-    margin: 10px;
-    padding: 60px;
-    white-space:pre-wrap;
-    border-radius: 6px;
-    background: white;
-    box-shadow: 0px 0.55px 2.42px rgba(0,0,0,0.12), 0px 1.01px 2.32px rgba(0,0,0,0.24);
-}
-.card_view_chuangshi{
-    background: #F6F4EC;
-    margin: 10px;
-    padding: 60px;
-    white-space: pre-wrap;
-    border-radius: 3px;
-    box-shadow: 0 0 15px 0 #CCC;  
-}
-.card_view_tadu{
-    margin: 10px;
-    padding: 60px;
-    white-space: pre-wrap;
-    background: #f6f4ec!important;
-    border: 1px solid #dcdcdc;
-    border-radius: 5px;
-}
-.card_view_wangyi{
-    margin: 10px;
-    padding: 60px;
-    background: #FCF3EA;
-    white-space: pre-wrap;
-    border: 1px solid #fcf3ea;
-    box-shadow: 3px 3px 8px -3px #838383;
-}
+

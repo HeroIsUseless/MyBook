@@ -19,7 +19,7 @@ function createWindow () {
     slashes: true
   }));
 
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {
     mainWindow = null;
@@ -47,7 +47,7 @@ ipcMain.on('sigShowRightClickMenu', (event) => {
     menu.append(new MenuItem({ label: '字体', click() { mainWindow.webContents.send('sigShowRightClickMenu_compete'); } }));
     menu.append(new MenuItem({ label: '段落', click() { mainWindow.webContents.send('sigShowRightClickMenu_compete'); } }));
     menu.append(new MenuItem({ label: '背景', click() { mainWindow.webContents.send('sigShowRightClickMenu_compete'); } }));
-    menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox', checked: true }));
+    // menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox', checked: true }));
 
     const win = BrowserWindow.fromWebContents(event.sender);
 
