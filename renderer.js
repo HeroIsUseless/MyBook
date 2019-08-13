@@ -66,20 +66,25 @@ ipcRenderer.on('sigShowRightClickMenu_compete',function(event,data){
     console.log('sigShowRightClickMenu_compete');
     app.read_setting_visible = true;
 })
+// 用来存储当前阅读章节的
+ipcRenderer.on('sigWindow_close',function(event,data){
+    if(active_page == "read_page")
+        main_db.update({name: app.book.name}, {$set: {begin_chapter: app.begin_chapter-1}}); // 更新初始化时章节
+})
 var app = new Vue({
     el:'#app',
     data:{
         active_page: "main_page", // 在主界面和阅读界面之间切换
         active_section: 'home_section', // 主界面的各部分之间的切换
-        nav_mark_top: 0, // 导航栏的高亮标志
+        nav_mark_top: 0, // 导航栏的高亮标志位置
         nav_mark_bottom: 0,
-        books:[], // 数据库里的总书籍名称
-        read_list_visible: false, // 阅读界面目录-书签栏的显示
-        read_list_mode: "read_caption", // 
+        books:[], // 数据库里的总书籍{name, }
+        book: {}, // 当前读的书，用于初始化章节和存取书签用的
+        read_list_visible: false, // 阅读界面列表栏的显示
+        read_list_mode: "read_caption", // 阅读界面列表栏是在目录栏还是在书签栏
         read_list_bookmark:"./Resource/Image/16px/bookmark.png", // 阅读界面目录按钮高亮
         read_list_caption:"./Resource/Image/16px/list_grey.png", // 阅读界面书签按钮高亮
         read_setting_visible: false, // 阅读界面设置栏的显示
-        read_top: 0, // emmm，忘记了，但是删掉它会报错
         card_view: "card_view_default", // 阅读界面样式
         chapters:[], // 在阅读界面时的总章节，用于加载html
         chapters_hidden:[], // 在阅读界面的隐藏章节，用于幕后控制
@@ -120,24 +125,6 @@ var app = new Vue({
             app.active_section = 'setting_section';
 
         },
-        // 书点击打开阅读界面功能 
-        book_click(book){
-            app.is_loading = true;
-            main_db.find({name:book.name}, function(err, res){
-                app.now_chapter = res.now_chapter;
-            });
-            const t_db = new nedb({
-                filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
-                autoload: true,
-            })
-            t_db.find({}, function(err, res){
-                app.chapters = [{caption: "初始化标题（测试）", content: "初始化内容（测试）"}];
-                app.chapters_hidden = res;
-                app.chapters[0] = res[0];
-                app.is_loading = false;
-                app.active_page = 'read_page';
-            });
-        },
         // 导出
         shelf_export_click(){
             ipcRenderer.send('sigShowExportWindow');
@@ -155,8 +142,10 @@ var app = new Vue({
                 name = name.slice(0, index); 
                 // 插入数据库
                 main_db.count({name:name}, function(err, count){
-                    if(count == 0)
+                    if(count == 0) // 如果没有这个书，就插入，如果有，就不执行操作，因此你需要手动删除
                         main_db.insert({name: name, begin_chapter: 0});
+                    else // 这个是开发者方便时候用的
+                        main_db.update({name: name}, {$set: { begin_chapter: 0 }});
                 });
                 // 为小说新建数据库
                 const t_db = new nedb({
@@ -186,6 +175,25 @@ var app = new Vue({
                 });
             }
         },
+        // 书点击打开阅读界面功能 
+        book_click(book){
+            app.book = book;
+            app.is_loading = true;
+            main_db.find({name:book.name}, function(err, res){
+                app.now_chapter = app.begin_chapter = res[0].begin_chapter;
+            });
+            const t_db = new nedb({
+                filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
+                autoload: true,
+            })
+            t_db.find({}, function(err, res){
+                app.chapters = [{caption: "初始化标题（测试）", content: "初始化内容（测试）"}];
+                app.chapters_hidden = res;
+                app.chapters[0] = res[app.begin_chapter];
+                app.is_loading = false;
+                app.active_page = 'read_page';
+            });
+        },
         read_list_caption_click(chapter){
             var res = app.chapters_hidden.find((l_chapter)=>{
                 return l_chapter.caption == chapter.caption;
@@ -211,6 +219,7 @@ var app = new Vue({
         },
         read_pannel_home_click(){
             app.active_page = 'main_page';
+            main_db.update({name: app.book.name}, {$set: {begin_chapter: app.begin_chapter-1}}); // 更新初始化时章节
         },
         read_pannel_list_click(){
             app.read_list_visible = !app.read_list_visible;
@@ -235,8 +244,7 @@ var app = new Vue({
                 if(scrollTop + windowHeight == scrollHeight){
                     // 加载数据
                     app.chapters.push(app.chapters_hidden[app.chapters.length+app.now_chapter]);
-                    // app.begin_chapter = app.chapters.length+app.now_chapter;
-                    // console.log(app.begin_chapter);
+                    app.begin_chapter = app.chapters.length+app.now_chapter;
                 }
             }
         }
