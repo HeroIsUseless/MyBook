@@ -83,7 +83,8 @@ var app = new Vue({
         card_view: "card_view_default", // 阅读界面样式
         chapters:[], // 在阅读界面时的总章节，用于加载html
         chapters_hidden:[], // 在阅读界面的隐藏章节，用于幕后控制
-        now_chapter:0, // 用于点击书签栏的时候设置初始章节
+        now_chapter:0, // 用于点击书签栏的时候，滚动时候设置初始章节
+        begin_chapter:0, // 存储在main数据库中的设置初始章节
         font_size:"15px", // 阅读界面字体大小
         font_family:"微软雅黑", // 阅读界面字体样式
         page_margin:"10px", // 阅读界面的卡片宽度
@@ -122,14 +123,15 @@ var app = new Vue({
         // 书点击打开阅读界面功能 
         book_click(book){
             app.is_loading = true;
+            main_db.find({name:book.name}, function(err, res){
+                app.now_chapter = res.now_chapter;
+            });
             const t_db = new nedb({
                 filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
                 autoload: true,
             })
-            // console.log("fine")
             t_db.find({}, function(err, res){
-                // console.log(res)
-                app.chapters = [{caption: "第一章 陨落的天才", content: "斗之力，三段望着测验魔石碑上面<br\>斗之力，三段望着测验魔石碑上面"}];
+                app.chapters = [{caption: "初始化标题（测试）", content: "初始化内容（测试）"}];
                 app.chapters_hidden = res;
                 app.chapters[0] = res[0];
                 app.is_loading = false;
@@ -154,7 +156,7 @@ var app = new Vue({
                 // 插入数据库
                 main_db.count({name:name}, function(err, count){
                     if(count == 0)
-                        main_db.insert({name: name});
+                        main_db.insert({name: name, begin_chapter: 0});
                 });
                 // 为小说新建数据库
                 const t_db = new nedb({
@@ -178,6 +180,7 @@ var app = new Vue({
                     }
                     app.is_loading = false;
                     // // 打开阅读界面
+                    app.now_chapter = 0;
                     app.chapters[0] = app.chapters_hidden[0];
                     app.active_page = "read_page";
                 });
@@ -219,6 +222,7 @@ var app = new Vue({
             app.read_list_visible = false;
             app.read_setting_visible = false;
         },
+        // 下拉刷新函数
         handleScroll(){
             if(app.active_page == 'read_page'){
                 // scrollTop 滚动条滚动时，距离顶部的距离
@@ -231,6 +235,8 @@ var app = new Vue({
                 if(scrollTop + windowHeight == scrollHeight){
                     // 加载数据
                     app.chapters.push(app.chapters_hidden[app.chapters.length+app.now_chapter]);
+                    // app.begin_chapter = app.chapters.length+app.now_chapter;
+                    // console.log(app.begin_chapter);
                 }
             }
         }
