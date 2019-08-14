@@ -2,7 +2,7 @@
 
 > 一款简约优美的电脑端电子书阅读器，采用electron技术，跨linux，OSX，windows平台。
 
-
+如果感觉不错的话点一下右上角的star吧，真的很重要，谢谢！！
     
 ## 主界面
 ![6.png](./readme_res/6.png)
@@ -56,11 +56,13 @@
 
 项目还在进行中，但大体上能用了（本地部分），以后还会更新的，把网络部分搞定，如果你有什么好的建议，或者在使用中出现了什么BUG，或者你想参与这个项目，欢迎在GitHub上issue，或者加入群聊反馈问题，让我们一同把这个软件做的更好！
 
+
+
 交流QQ群：383538410
 
 ![QQ.png](./readme_res/QQ.png)
 
-赠人玫瑰，手留余香，您的支持将鼓励我加速更新！[白名单](https://github.com/HeroIsUseless/THANKS)
+赠人玫瑰，手留余香，您的支持将鼓励我加速更新(*^_^*)！[白名单](https://github.com/HeroIsUseless/THANKS)
 
 
 <figure>
