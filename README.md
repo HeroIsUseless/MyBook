@@ -1,6 +1,8 @@
 # MyBook
 
 > 一款简约优美的电脑端电子书阅读器，采用electron技术，跨linux，OSX，windows平台。
+
+
     
 ## 主界面
 ![6.png](./readme_res/6.png)
@@ -58,3 +60,10 @@
 
 ![QQ.png](./readme_res/QQ.png)
 
+赠人玫瑰，手留余香，您的支持将鼓励我加速更新！[白名单](https://github.com/HeroIsUseless/THANKS)
+
+
+<figure>
+    <img src="./readme_res/weixin.png">
+    <img src="./readme_res/zhifubao.png">
+</figure> 
