@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "packager": "electron-packager ./ --platform=win32 --arch=x64  --out ./app --electron-version=4.0.2 --overwrite --ignore=node_modules"
+    "packager": "electron-packager ./ --platform=win32 --arch=x64  --out ./app --electron-version=5.0.2 --overwrite"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -17,10 +17,12 @@
   ],
   "author": "heroisuseless",
   "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "^5.0.2"
-  },
   "dependencies": {
-    "nedb":"^1.8.0"
+    "nedb": "^1.8.0",
+    "iconv-lite":"^0.5.0"
+  },
+  "devDependencies": {
+    "electron": "^5.0.2",
+    "electron-packager": "^13.1.1"
   }
 }

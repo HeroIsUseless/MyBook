@@ -3,7 +3,8 @@ const {BrowserWindow, ipcRenderer,remote} = electron;
 const {Menu, MenuItem} = remote;
 const nedb = require('nedb');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs');              
+const iconv = require('iconv-lite'); // 转码
 
 const main_db = new nedb({
     filename: path.join(remote.app.getPath('userData'), '/main.db'),
@@ -154,8 +155,6 @@ var app = new Vue({
                 });
                 // 先删除所有记录
                 t_db.remove({}, { multi: true }, function (err, numRemoved) {});
-                // 提取小说内容并转码
-                var iconv = require('iconv-lite');
                 // 切割小说章节并存入数据库
                 fs.readFile(filePath, function(err, data){
                     app.is_loading = true;

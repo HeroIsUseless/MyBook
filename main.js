@@ -19,7 +19,7 @@ function createWindow () {
     slashes: true
   }));
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
   mainWindow.on('close', function(){ // 此函数要先于closed，先于窗口关闭
     mainWindow.webContents.send('sigWindow_close');
   })
