@@ -2,7 +2,7 @@
 
 > 一款简约优美的电脑端电子书阅读器，采用electron技术，跨linux，OSX，windows平台。
 
- 下载[点击此处即可]("https://github.com/HeroIsUseless/MyBook/releases")
+ 下载[点击此处即可](https://github.com/HeroIsUseless/MyBook/releases)
 
 在网站的更新往往比在QQ群中更新慢，因此最好加一下QQ群（在下面），另外，如果感觉不错的话点一下右上角的star吧，真的很重要，谢谢！！
     
