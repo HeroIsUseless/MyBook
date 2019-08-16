@@ -152,11 +152,11 @@
                 </div>
             </div>
         </div>
-        <div id="read_page" v-else-if="active_page == 'read_page'">
+        <div id="read_page" v-else-if="active_page == 'read_page'"  v-bind:style="{background:page_background}">
         <!-- <div id="read_background" v-else-if="active_page == 'read_page'"></div> -->
-            <div id="read_content">
+            <div id="read_content" v-bind:style="{width: page_margin, background:page_background}">
                 <template v-for="chapter in chapters">
-                    <div id="read_chapter" v-bind:class="[page_style]" v-on:click="read_content_click" oncontextmenu="showRightClickMenu()">
+                    <div id="read_chapter" v-bind:class="[page_style]" v-bind:style="{padding: page_padding, background:page_foreground}" v-on:click="read_content_click" oncontextmenu="showRightClickMenu()">
                         <p id="read_book_caption">{{chapter.caption}}</p>
                             <div id="read_book_info">
                                 <img src="./Resource/Image/16px/word_count.png"/>
@@ -216,26 +216,31 @@
                             <select class="read_setting_select" v-model="font_size" >
                                 <option >10px</option>
                                 <option selected="selected">15px</option>
-                                <option >20px</option>
+                                <option >20px</option><option >25px</option><option >30px</option><option >35px</option>
                             </select>
                         </div>
-                        <!-- <span>font_size: {{font_size}}</span> -->
                     </div><!--setting_font-->
                     <div id="read_setting_page">
                         <div id="read_setting_page_padding" class="read_setting_item">
                             <p class="read_setting_text">页内边距:</p>
                             <select class="read_setting_select" v-model="page_padding" >
+                                <option >0px</option>
                                 <option >10px</option>
-                                <option selected="selected">15px</option>
-                                <option >20px</option>
+                                <option >30px</option>
+                                <option selected="selected">60px</option>
+                                <option >90px</option>
+                                <option >120px</option>
                             </select>
                         </div>
                         <div id="read_setting_page_margin" class="read_setting_item">
                             <p class="read_setting_text">页宽:</p>
                             <select class="read_setting_select" v-model="page_margin" >
-                                <option >70%</option>
-                                <option selected="selected">80%</option>
+                                <option>50%</option>
+                                <option>60%</option>
+                                <option selected="selected">70%</option>
+                                <option>80%</option>
                                 <option >90%</option>
+                                <option >100%</option>
                             </select>
                         </div>
                         <div id="read_setting_page_style" class="read_setting_item">
@@ -250,18 +255,28 @@
                         </div>
                         <div id="read_setting_page_background" class="read_setting_item">
                             <p class="read_setting_text">背景色:</p>
-                            <select class="read_setting_select" v-model="page_style" >
-                                <option >蓝色</option>
-                                <option selected="selected">黑色</option>
-                                <option >白色</option>
+                            <select class="read_setting_select" v-model="page_background" >
+                                <option selected="selected" style="background: #ececec">浅灰色</option>
+                                <option value="#5c2223" style="background: #5c2223">暗玉紫</option>
+                                <option value="#eea2a4" style="background: #eea2a4">牡丹粉红</option>
+                                <option value="#5a191b" style="background: #5a191b">栗紫</option>
+                                <option value="#f07c82" style="background: #f07c82">香叶红</option>
+                                <option value="#5a1216" style="background: #5a1216">葡萄紫</option>
+                                <option value="#ed5a65" style="background: #ed5a65">艳红</option>
+                                <option value="#c04851" style="background: #c04851">玉红</option>
                             </select>
                         </div>
                         <div id="read_setting_page_foreground" class="read_setting_item">
                             <p class="read_setting_text">前景色:</p>
-                            <select class="read_setting_select" v-model="page_style" >
-                                <option >蓝色</option>
-                                <option selected="selected">黑色</option>
-                                <option >白色</option>
+                            <select class="read_setting_select" v-model="page_foreground" >
+                                <option selected="selected" style="background: white">白色</option>
+                                <option value="#5c2223" style="background: #5c2223">暗玉紫</option>
+                                <option value="#eea2a4" style="background: #eea2a4">牡丹粉红</option>
+                                <option value="#5a191b" style="background: #5a191b">栗紫</option>
+                                <option value="#f07c82" style="background: #f07c82">香叶红</option>
+                                <option value="#5a1216" style="background: #5a1216">葡萄紫</option>
+                                <option value="#ed5a65" style="background: #ed5a65">艳红</option>
+                                <option value="#c04851" style="background: #c04851">玉红</option>
                             </select>
                         </div>
 

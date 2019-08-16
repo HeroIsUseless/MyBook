@@ -93,9 +93,11 @@ var app = new Vue({
         begin_chapter:0, // 存储在main数据库中的设置初始章节
         font_size:"15px", // 阅读界面字体大小
         font_family:"微软雅黑", // 阅读界面字体样式
-        page_margin:"10px", // 阅读界面的卡片宽度
-        page_padding:"10px", // 阅读界面的内边距
+        page_margin:"70%", // 阅读界面的卡片宽度
+        page_padding:"60px", // 阅读界面的内边距
         page_style:"card_view", // 阅读界面样式？？？？
+        page_background: "#ececec",
+        page_foreground: "#ffffff",
         is_loading: false, // 用来进行加载loading界面
     },
     created() {

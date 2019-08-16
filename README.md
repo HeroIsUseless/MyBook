@@ -2,7 +2,7 @@
 
 > 一款简约优美的电脑端电子书阅读器，采用electron技术，跨linux，OSX，windows平台。
 
-[下载点击此处即可]("https://github.com/HeroIsUseless/MyBook/releases")
+ 下载[点击此处即可]("https://github.com/HeroIsUseless/MyBook/releases")
 
 如果感觉不错的话点一下右上角的star吧，真的很重要，谢谢！！
     
@@ -20,6 +20,8 @@
 4. 其他阅读器应该有的功能。
 
 ## 日志
+
+**[heroisuseless， 2019/8/16]**：page_setting的逻辑实现。
 
 **[heroisuseless， 2019/8/14]**：把名字改回MyBook，修改README.md，出门迎客啦！
 
