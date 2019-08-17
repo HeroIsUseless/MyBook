@@ -21,6 +21,8 @@
 
 ## 日志
 
+**[heroisuseless， 2019/8/16]**：添加书签功能。
+
 **[heroisuseless， 2019/8/16]**：page_setting的逻辑实现。
 
 **[heroisuseless， 2019/8/14]**：把名字改回MyBook，修改README.md，出门迎客啦！

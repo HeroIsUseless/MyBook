@@ -11,7 +11,7 @@
   <body>
     <div id="app">
         <div id="main_page"  v-if="active_page == 'main_page'">
-            <div id="navigation">
+            <div id="navigation" class="fluent_navigation">
                 <div id="" class="nav_item" v-on:click="nav_home_click">
                     <img class="nav_item_img" src="./Resource/Image/32px/home.png"/>
                     <p class="nav_item_text">主页</p> 
@@ -58,7 +58,7 @@
                 </div><!-- rank_section -->
                 <div id="sort_section" v-else-if="active_section=='sort_section'">
                     <div id="sort_head">
-                        <ul class="fluent_navigation">
+                        <ul class="fluent_head_navigation">
                             <li class="fluent_nav_item">玄幻</li>
                             <li class="fluent_nav_item">奇幻</li>
                             <li class="fluent_nav_item">武侠</li>
@@ -162,7 +162,7 @@
                                 <img src="./Resource/Image/16px/word_count.png"/>
                                 <p>&nbsp; {{chapter.content.length}}字&nbsp;&nbsp;&nbsp;</p>
                                 <img src="./Resource/Image/16px/bookmark.png"/>
-                                <p>&nbsp; 添加书签&nbsp;&nbsp;</p>
+                                <p style="cursor: pointer;" v-on:click="add_bookmark(chapter)">&nbsp; 添加书签&nbsp;&nbsp;</p>
                             </div>
                             <div class="read_book_text" v-bind:style="{fontSize:font_size, fontFamily:font_family}">{{chapter.content}}</div>
                     </div>
@@ -194,7 +194,9 @@
                     </template>
                 </div>
                 <div id="read_bookmark_content" v-if="read_list_mode == 'read_bookmark'">
-
+                    <template v-for="bookmark in bookmarks">
+                        <p class="read_list_caption" v-on:click="read_list_bookmark_click(bookmark)">{{bookmark}}</p>
+                    </template>
                 </div>
             </div>
             <div id="read_setting"  v-if="read_setting_visible == true">

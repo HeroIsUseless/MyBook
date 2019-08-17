@@ -70,7 +70,9 @@ ipcRenderer.on('sigShowRightClickMenu_compete',function(event,data){
 // 用来存储当前阅读章节的
 ipcRenderer.on('sigWindow_close',function(event,data){
     if(active_page == "read_page")
-        main_db.update({name: app.book.name}, {$set: {begin_chapter: app.begin_chapter-1}}); // 更新初始化时章节
+        main_db.update({name: app.book.name}, {$set: {
+            begin_chapter: app.begin_chapter,
+            bookmarks: app.bookmarks}}); // 更新初始化时章节
 })
 var app = new Vue({
     el:'#app',
@@ -89,6 +91,7 @@ var app = new Vue({
         card_view: "card_view_default", // 阅读界面样式
         chapters:[], // 在阅读界面时的总章节，用于加载html
         chapters_hidden:[], // 在阅读界面的隐藏章节，用于幕后控制
+        bookmarks: [], // 书签数组
         now_chapter:0, // 用于点击书签栏的时候，滚动时候设置初始章节
         begin_chapter:0, // 存储在main数据库中的设置初始章节
         font_size:"15px", // 阅读界面字体大小
@@ -148,7 +151,9 @@ var app = new Vue({
                     if(count == 0) // 如果没有这个书，就插入，如果有，就不执行操作，因此你需要手动删除
                         main_db.insert({name: name, begin_chapter: 0});
                     else // 这个是开发者方便时候用的
-                        main_db.update({name: name}, {$set: { begin_chapter: 0 }});
+                        main_db.update({name: name}, {$set: { 
+                            begin_chapter: 0, 
+                            bookmarks: [] }});
                 });
                 // 为小说新建数据库
                 const t_db = new nedb({
@@ -180,20 +185,36 @@ var app = new Vue({
         book_click(book){
             app.book = book;
             app.is_loading = true;
-            main_db.find({name:book.name}, function(err, res){
-                app.now_chapter = app.begin_chapter = res[0].begin_chapter;
+            main_db.find({name:book.name}, function(err, res){ if(err) alert(err);
+                app.now_chapter = app.begin_chapter = res[0].begin_chapter; // 初始章节赋值
+                app.bookmarks = res[0].bookmarks; // 书签赋值
+                console.log(res[0].bookmarks);
             });
             const t_db = new nedb({
                 filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
                 autoload: true,
             })
-            t_db.find({}, function(err, res){
+            t_db.find({}, function(err, res){ if(err) alert(err);
                 app.chapters = [{caption: "初始化标题（测试）", content: "初始化内容（测试）"}];
                 app.chapters_hidden = res;
                 app.chapters[0] = res[app.begin_chapter];
                 app.is_loading = false;
                 app.active_page = 'read_page';
             });
+        },
+        add_bookmark(chapter){
+            if(app.bookmarks.indexOf(chapter.caption)==-1)
+                app.bookmarks[app.bookmarks.length] = chapter.caption;
+        },
+        read_list_head_caption_click(){
+            app.read_list_bookmark = "./Resource/Image/16px/bookmark.png";
+            app.read_list_caption = "./Resource/Image/16px/list_grey.png";
+            app.read_list_mode = "read_caption";
+        },
+        read_list_head_bookmark_click(){
+            app.read_list_caption = "./Resource/Image/16px/list.png";
+            app.read_list_bookmark = "./Resource/Image/16px/bookmark_grey.png";
+            app.read_list_mode = "read_bookmark";
         },
         read_list_caption_click(chapter){
             var res = app.chapters_hidden.find((l_chapter)=>{
@@ -208,19 +229,25 @@ var app = new Vue({
             window.scrollTo(0,0);
             app.chapters[0] = res;
         },
-        read_list_head_caption_click(){
-            app.read_list_bookmark = "./Resource/Image/16px/bookmark.png";
-            app.read_list_caption = "./Resource/Image/16px/list_grey.png";
-            app.read_list_mode = "read_caption";
-        },
-        read_list_head_bookmark_click(){
-            app.read_list_caption = "./Resource/Image/16px/list.png";
-            app.read_list_bookmark = "./Resource/Image/16px/bookmark_grey.png";
-            app.read_list_mode = "read_bookmark";
+        read_list_bookmark_click(bookmark){
+            var res = app.chapters_hidden.find((l_chapter)=>{
+                return l_chapter.caption == bookmark;
+            });
+            var i = 0;
+            while(app.chapters_hidden[i].caption != bookmark){
+                i+=1;
+            }
+            app.now_chapter = i;
+            app.chapters = [];
+            window.scrollTo(0,0);
+            app.chapters[0] = res;
         },
         read_pannel_home_click(){
             app.active_page = 'main_page';
-            main_db.update({name: app.book.name}, {$set: {begin_chapter: app.begin_chapter-1}}); // 更新初始化时章节
+            main_db.update({name: app.book.name}, 
+                {$set: {begin_chapter: app.begin_chapter, 
+                        bookmarks: app.bookmarks}}); // 更新初始化时章节
+            console.log(app.bookmarks);
         },
         read_pannel_list_click(){
             app.read_list_visible = !app.read_list_visible;

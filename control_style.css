@@ -29,6 +29,11 @@
     border-bottom: 2px solid rgb(73, 73, 73);
 }
 .fluent_navigation{
+    height: 100%;
+    width: 30%;
+    background: rgb(214, 214, 214);
+}
+.fluent_head_navigation{
     display: flex;
 }
 .fluent_nav_item{
@@ -61,6 +66,13 @@
   background-color: #23b9fc;
   box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
 }
+.material_navigation{
+    height: 100%;
+    width: 30%;
+    color: white;
+    background: #00ABF6;
+}
+/**其他那个，额*/
 .card_view_default{
     margin: 10px;
     padding: 60px;
