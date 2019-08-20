@@ -16,19 +16,14 @@ let mainMenu = Menu.buildFromTemplate([
   {label: '测试',
     role: 'help',
     submenu: [
-        {label: '插入',
+        {label: 'list',
          click: function () {
-            main_db.insert({
-                name: 'tom',
-                content: 'hello',
-            }, (err, ret)=>{});
+            app.read_list_mode = "read_caption";
          }
         }, 
-        {label: '读取',
+        {label: 'bk',
          click: function () {
-            main_db.findOne({
-                name: 'tom'
-            }, (err, ret)=>{console.log(ret)});
+            app.read_list_mode = "read_bookmark";
          }
         },
         {label: '读取_打开read',
@@ -41,6 +36,18 @@ let mainMenu = Menu.buildFromTemplate([
             });
          }
         },
+        {label: '移除t_db所有记录',
+         click: function () {
+            // 为小说新建数据库
+            const t_db = new nedb({
+                filename: path.join(remote.app.getPath('userData'), '/' + '异世重生之无上巅峰' + '.db'),
+                autoload: true,
+            });
+            t_db.remove({}, { multi: true }, function (err, numRemoved) {
+                console.log(numRemoved);
+            });
+         }
+        },
         {label: '移除main所有记录',
          click: function () {
             main_db.remove({}, { multi: true }, (err, numRemoved)=>{});
@@ -49,7 +56,7 @@ let mainMenu = Menu.buildFromTemplate([
         },
     ]
   }]);    
-// Menu.setApplicationMenu(mainMenu);
+Menu.setApplicationMenu(mainMenu);
 
 global.sharedObject = {
     read_list_visible: '000',
@@ -92,8 +99,8 @@ var app = new Vue({
         chapters:[], // 在阅读界面时的总章节，用于加载html
         chapters_hidden:[], // 在阅读界面的隐藏章节，用于幕后控制
         bookmarks: [], // 书签数组
-        now_chapter:0, // 用于点击书签栏的时候，滚动时候设置初始章节
-        begin_chapter:0, // 存储在main数据库中的设置初始章节
+        now_chapter:0, // 用于点击书签栏的时候，滚动时候设置初始章节，从0开始的
+        begin_chapter:0, // 用于恢复界面时设置初始章节，从0开始的
         font_size:"15px", // 阅读界面字体大小
         font_family:"微软雅黑", // 阅读界面字体样式
         page_margin:"70%", // 阅读界面的卡片宽度
@@ -104,7 +111,7 @@ var app = new Vue({
         is_loading: false, // 用来进行加载loading界面
     },
     created() {
-        
+        console.log(remote.app.getPath('userData'));
     },
     methods: {
         nav_home_click(){
@@ -140,6 +147,7 @@ var app = new Vue({
             // 打开文件选择窗口
             const file = remote.dialog.showOpenDialog(remote.getCurrentWindow(), {filters: [ ],properties: ['openFile']});
             if(file!=""){
+                app.is_loading = true;
                 // 提取小说名
                 filePath = file.toString();
                 var index = filePath.lastIndexOf("\\");
@@ -167,16 +175,21 @@ var app = new Vue({
                     app.is_loading = true;
                     var text = iconv.decode(data, fileType(data)); // 转码操作
                     app.chapters_hidden = novel_slice(text); // 切割小说章节
-                    for(var i=0; i<app.chapters_hidden.length; i++){
-                        t_db.insert({ // 插入数据库
-                            caption: app.chapters_hidden[i].caption,
-                            content: app.chapters_hidden[i].content,
-                        });
+                    if(app.chapters_hidden.length != 0){
+                        for(var i=0; i<app.chapters_hidden.length; i++){
+                            t_db.insert({
+                                _id:i+1,
+                                caption:app.chapters_hidden[i].caption,
+                                content:app.chapters_hidden[i].content,
+                            });
+                        }
                     }
+                        
                     app.is_loading = false;
                     // // 打开阅读界面
                     app.now_chapter = 0;
                     app.chapters[0] = app.chapters_hidden[0];
+                    app.is_loading = false;
                     app.active_page = "read_page";
                 });
             }
@@ -188,14 +201,13 @@ var app = new Vue({
             main_db.find({name:book.name}, function(err, res){ if(err) alert(err);
                 app.now_chapter = app.begin_chapter = res[0].begin_chapter; // 初始章节赋值
                 app.bookmarks = res[0].bookmarks; // 书签赋值
-                console.log(res[0].bookmarks);
             });
             const t_db = new nedb({
                 filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
                 autoload: true,
-            })
+            });
             t_db.find({}, function(err, res){ if(err) alert(err);
-                app.chapters = [{caption: "初始化标题（测试）", content: "初始化内容（测试）"}];
+                app.chapters = [];
                 app.chapters_hidden = res;
                 app.chapters[0] = res[app.begin_chapter];
                 app.is_loading = false;
@@ -206,6 +218,7 @@ var app = new Vue({
             if(app.bookmarks.indexOf(chapter.caption)==-1)
                 app.bookmarks[app.bookmarks.length] = chapter.caption;
         },
+        // 列表面板的按钮函数
         read_list_head_caption_click(){
             app.read_list_bookmark = "./Resource/Image/16px/bookmark.png";
             app.read_list_caption = "./Resource/Image/16px/list_grey.png";
@@ -224,7 +237,7 @@ var app = new Vue({
             while(app.chapters_hidden[i].caption != chapter.caption){
                 i+=1;
             }
-            app.now_chapter = i;
+            app.begin_chapter = app.now_chapter = i;
             app.chapters = [];
             window.scrollTo(0,0);
             app.chapters[0] = res;
@@ -242,12 +255,17 @@ var app = new Vue({
             window.scrollTo(0,0);
             app.chapters[0] = res;
         },
+        // 控制面板的按钮函数
         read_pannel_home_click(){
+            app.read_list_visible = false;
+            app.read_setting_visible = false;
+            app.read_list_bookmark = "./Resource/Image/16px/bookmark.png";
+            app.read_list_caption = "./Resource/Image/16px/list_grey.png";
+            app.read_list_mode = "read_caption";
             app.active_page = 'main_page';
             main_db.update({name: app.book.name}, 
                 {$set: {begin_chapter: app.begin_chapter, 
-                        bookmarks: app.bookmarks}}); // 更新初始化时章节
-            console.log(app.bookmarks);
+                        bookmarks: app.bookmarks}}); // 更新初始化时章节，书签
         },
         read_pannel_list_click(){
             app.read_list_visible = !app.read_list_visible;
@@ -272,7 +290,7 @@ var app = new Vue({
                 if(scrollTop + windowHeight == scrollHeight){
                     // 加载数据
                     app.chapters.push(app.chapters_hidden[app.chapters.length+app.now_chapter]);
-                    app.begin_chapter = app.chapters.length+app.now_chapter;
+                    app.begin_chapter = app.chapters.length+app.now_chapter-1;
                 }
             }
         }
@@ -309,7 +327,10 @@ function isNumber(char){
     else if(char == '8' || char == '八') return true;
     else if(char == '9' || char == '九') return true;
     else if(char == '0' || char == '零') return true;
-    else if(char == ' ') return true;
+    else if(char == '十') return true;
+    else if(char == '百') return true;
+    else if(char == '千') return true;
+    else if(char == '万') return true;
     else return false;
 }
 // 小说章节切割函数
@@ -327,7 +348,7 @@ function novel_slice(text){
                 j++; if(j >= text.length) break; // 容错处理
             }
             if((j>=text.length) && (j+1>=text.length)) break; // 容错处理
-            if((text[j]=="章") && (text[j+1]==" ")){ // 说明的确是标题了
+            if((text[j]=="章") && (text[j+1]==" ")){ // 说明的确是标题了，如果不是的话，算入正文
                 caption += text[j];
                 i = j+1; // 接下来进行章节名的获取，从这里开始，到找到一个有回车或者空格的段落结束
                 if(i >= text.length) break; // 容错处理
@@ -349,19 +370,18 @@ function novel_slice(text){
                         var j = i+2; while(isNumber(text[j])){
                             j+=1;
                             if(j >= text.length) break; // 容错处理
+                            if(j+1 >= text.length) break; // 容错处理
                         } // 搜集里面的数字
-                        if(text[j] == "章"){break;}} // 表明的确是标题，break掉
+                        if((text[j] == "章") && (text[j+1] == " ")){break;}} // 表明的确是标题，break掉
                     content += text[i];
                     i+=1;
                 }
                 var chapter = {caption: caption, content:content};
-                console.log(chapter);
                 result[result.length] = chapter;
             }
             else{}// 如果不是'章'的话，说明那就不是标题，而是一段文本，在这种情况下，这种文本不能算入章节中的，应该舍弃不要
         }
         i+=1; // 用于找标题的一直递增
     }
-    console.log(result)
     return result;
 }

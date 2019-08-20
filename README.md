@@ -21,6 +21,8 @@
 
 ## 日志
 
+**[heroisuseless， 2019/8/19]**：修复了一些小bug。
+
 **[heroisuseless， 2019/8/19]**：优化章节切割功能。
 
 **[heroisuseless， 2019/8/16]**：添加书签功能。

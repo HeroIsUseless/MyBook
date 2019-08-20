@@ -182,7 +182,7 @@ html, body{
 .shelf_book_mark{
     height: 20px;
     width: 41px;
-    background: red;
+    background: rgb(127, 122, 139);
     color: white;
     margin: 5px;
     display: flex;
