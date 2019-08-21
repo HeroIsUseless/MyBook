@@ -75,3 +75,11 @@ ipcMain.on('sigShowExportWindow', (event) => {
   
   //exportWindow.webContents.openDevTools();
 });
+ipcMain.on('sig_book_rightMenu', (event) => {
+    const menu = new Menu();
+    menu.append(new MenuItem({label:'删除', click() { 
+        mainWindow.webContents.send('sig_delete_book');
+    }}));
+    const win = BrowserWindow.fromWebContents(event.sender);
+    menu.popup(win);
+});

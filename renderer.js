@@ -5,7 +5,7 @@ const nedb = require('nedb');
 const path = require('path');
 const fs = require('fs');              
 const iconv = require('iconv-lite'); // 转码
-
+let delete_book = ""; // 一种很笨的方法实现删除书籍
 const main_db = new nedb({
     filename: path.join(remote.app.getPath('userData'), '/main.db'),
     autoload: true,
@@ -56,24 +56,40 @@ let mainMenu = Menu.buildFromTemplate([
         },
     ]
   }]);    
-Menu.setApplicationMenu(mainMenu);
+//Menu.setApplicationMenu(mainMenu);
 
 global.sharedObject = {
     read_list_visible: '000',
 }
+window.book_rightMenu = function(book){
+    console.log(book)
+}
 window.showRightClickMenu = function ()
-{
-    // console.log('1232300');
-    // window.addEventListener('contextmenu', (e) => {
-    // e.preventDefault();
-    // menu.popup({ window: remote.getCurrentWindow() });
-    // }, false);    
+{  
     ipcRenderer.send('sigShowRightClickMenu');
 }
 ipcRenderer.on('sigShowRightClickMenu_compete',function(event,data){
     console.log('sigShowRightClickMenu_compete');
     app.read_setting_visible = true;
-})
+});
+ipcRenderer.on('sig_delete_book',function(event,data){
+    main_db.remove({name:delete_book});
+    for(var i=0; i<app.books.length; i++){
+        if(delete_book == app.books[i].name){
+            app.books.splice(i, 1);
+            console.log(i)
+        }
+    }
+    fs.unlink(remote.app.getPath('userData')+'/'+delete_book+'.db',
+        function(error){
+            if(error){
+                console.log(error);
+                return false;
+            }
+        }
+   );
+});
+
 // 用来存储当前阅读章节的
 ipcRenderer.on('sigWindow_close',function(event,data){
     if(active_page == "read_page")
@@ -111,7 +127,6 @@ var app = new Vue({
         is_loading: false, // 用来进行加载loading界面
     },
     created() {
-        console.log(remote.app.getPath('userData'));
     },
     methods: {
         nav_home_click(){
@@ -163,6 +178,15 @@ var app = new Vue({
                             begin_chapter: 0, 
                             bookmarks: [] }});
                 });
+                // 插入进app.books
+                var book_exist = false;
+                for(book in app.books){
+                    if(book.name == name) book_exist = true;
+                }
+                if(!book_exist) app.books[app.books.length] = {name:name}; 
+                
+                console.log(app.books)
+                console.log(app.books.length)
                 // 为小说新建数据库
                 const t_db = new nedb({
                     filename: path.join(remote.app.getPath('userData'), '/' + name + '.db'),
@@ -213,6 +237,10 @@ var app = new Vue({
                 app.is_loading = false;
                 app.active_page = 'read_page';
             });
+        },
+        book_rightMenu(book){
+            delete_book = book.name;
+            ipcRenderer.send('sig_book_rightMenu');
         },
         add_bookmark(chapter){
             if(app.bookmarks.indexOf(chapter.caption)==-1)

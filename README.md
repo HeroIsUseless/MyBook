@@ -21,6 +21,8 @@
 
 ## 日志
 
+**[heroisuseless， 2019/8/21]**：添加小说删除功能。
+
 **[heroisuseless， 2019/8/19]**：修复了一些小bug。
 
 **[heroisuseless， 2019/8/19]**：优化章节切割功能。
@@ -38,8 +40,6 @@
 **[heroisuseless， 2019/8/7]**：为导出按钮添加逻辑功能，风格的列表vue双向绑定。
 ![9.png](./readme_res/9.png)
 ![10.png](./readme_res/10.png)
-![11.png](./readme_res/11.png)
-![12.png](./readme_res/12.png)
 ![13.png](./readme_res/13.png)
 ![14.png](./readme_res/14.png)
 

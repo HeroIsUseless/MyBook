@@ -104,8 +104,8 @@
                         <p id="shelf_outport_button" class="fluent_button" v-on:click="shelf_export_click">导出</p>
                     </div>
                     <div id="shelf_content">
-                        <template v-for="book in books">
-                            <div class="shelf_book"  v-on:click="book_click(book)">
+                        <template v-for="book in books"><!--oncontextmenu-->
+                            <div class="shelf_book"  v-on:click="book_click(book)"  @click.right="book_rightMenu(book)">
                                 <div class="shelf_book_mark">
                                     <p style="font-size: 12px; color:rgb(127, 122, 139)">有更新</p>
                                 </div>
