@@ -21,6 +21,8 @@
 
 ## 日志
 
+**[heroisuseless， 2019/8/22]**：添加返回顶部功能。
+
 **[heroisuseless， 2019/8/21]**：添加小说删除功能。
 
 **[heroisuseless， 2019/8/19]**：修复了一些小bug。

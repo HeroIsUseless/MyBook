@@ -270,6 +270,7 @@ html, body{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     border: solid 1px rgb(190, 181, 181);
     background: white;
 }
