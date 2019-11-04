@@ -71,8 +71,5 @@
 
 赠人玫瑰，手留余香，您的支持将鼓励我加速更新(*^_^*)！[白名单](https://github.com/HeroIsUseless/THANKS)
 
-
-<figure>
-    <img src="./readme_res/weixin.png">
-    <img src="./readme_res/zhifubao.png">
-</figure> 
+![weixin.png](./readme_res/weixin.png)
+![zhifubao.png](./readme_res/zhifubao.png)
