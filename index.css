@@ -62,6 +62,7 @@ html, body{
     width: 3px;
     margin-top: 2px;
     background: grey;
+    transition: top 0.1s;
 }
 #section{
     height: 100%;
@@ -70,7 +71,6 @@ html, body{
 #home_section{
     height: 100%;
     width: 100%;
-    overflow: hidden;/**TODO:*/
 }
 #home_board{
     height: 200px;
@@ -95,6 +95,38 @@ html, body{
 #home_search_button{
     margin: 5px;
 }
+#home_list{
+    width: 100%;
+    height: calc(100% - 291px);
+    overflow-y: auto;
+}
+.home_book_image{
+    height: 120px;
+    width: 90px;
+}
+.sort_item{
+    width: 100%;
+    display: flex;
+}
+.home_book{
+    height: 120px;
+    width: 90px;
+    margin: 20px;
+    border-radius: 2px;
+    box-shadow: 0px 3px 10px grey;
+    background: rgb(127, 122, 139);
+}
+.home_book_info{
+    width: 100%;
+}
+.home_book_name{
+    cursor: pointer;
+    font-size: 18px; 
+    margin: 20px; 
+    margin-left:0px; 
+    margin-bottom: 10px;
+}
+
 #home_refresh_button{
     position: fixed;
     bottom: 20px;

@@ -5,12 +5,14 @@ const nedb = require('nedb');
 const path = require('path');
 const fs = require('fs');              
 const iconv = require('iconv-lite'); // 转码
+const superagent = require('superagent');
+const cheerio = require('cheerio');
+
 let delete_book = ""; // 一种很笨的方法实现删除书籍
 const main_db = new nedb({
     filename: path.join(remote.app.getPath('userData'), '/main.db'),
     autoload: true,
-})
-
+});
 // 菜单初始化
 let mainMenu = Menu.buildFromTemplate([ 
   {label: '测试',
@@ -97,6 +99,49 @@ ipcRenderer.on('sigWindow_close',function(event,data){
             begin_chapter: app.begin_chapter,
             bookmarks: app.bookmarks}}); // 更新初始化时章节
 })
+
+// var navigation = new Vue({
+//     el:'nav',
+//     data:{
+
+//     },
+//     methods:{
+
+//     }
+// })
+
+// var main_page = new Vue({
+//     el:'#main_page',
+//     data:{
+
+//     },
+//     methods:{
+
+//     }
+// })
+
+// var main_page = new Vue({
+//     el:'#main_page',
+//     data:{
+
+//     },
+//     methods:{
+
+//     }
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
 var app = new Vue({
     el:'#app',
     data:{
@@ -104,6 +149,7 @@ var app = new Vue({
         active_section: 'home_section', // 主界面的各部分之间的切换
         nav_mark_top: 0, // 导航栏的高亮标志位置
         nav_mark_bottom: 0,
+        net_books:[], // 从网上爬取的小说
         books:[], // 数据库里的总书籍{name, }
         book: {}, // 当前读的书，用于初始化章节和存取书签用的
         read_list_visible: false, // 阅读界面列表栏的显示
@@ -125,8 +171,10 @@ var app = new Vue({
         page_background: "#ececec",
         page_foreground: "#ffffff",
         is_loading: false, // 用来进行加载loading界面
+        is_slice:true, // 小说是否切割
     },
     created() {
+        home_book_init();
     },
     methods: {
         nav_home_click(){
@@ -151,7 +199,11 @@ var app = new Vue({
         },
         nav_setting_click(){
             app.active_section = 'setting_section';
-
+            app.nav_mark_top = window.innerHeight-60;
+        },
+        home_book_click(book){
+            net_book_store(book);
+            //open_book(book);
         },
         // 导出
         shelf_export_click(){
@@ -183,10 +235,8 @@ var app = new Vue({
                 for(book in app.books){
                     if(book.name == name) book_exist = true;
                 }
-                if(!book_exist) app.books[app.books.length] = {name:name}; 
+                if(!book_exist) app.books.push({name:name}); 
                 
-                console.log(app.books)
-                console.log(app.books.length)
                 // 为小说新建数据库
                 const t_db = new nedb({
                     filename: path.join(remote.app.getPath('userData'), '/' + name + '.db'),
@@ -198,7 +248,12 @@ var app = new Vue({
                 fs.readFile(filePath, function(err, data){
                     app.is_loading = true;
                     var text = iconv.decode(data, fileType(data)); // 转码操作
-                    app.chapters_hidden = novel_slice(text); // 切割小说章节
+                    if(is_slice){
+                        app.chapters_hidden = novel_slice(text); // 切割小说章节
+                    }
+                    else{ // 不切割
+
+                    }
                     if(app.chapters_hidden.length != 0){
                         for(var i=0; i<app.chapters_hidden.length; i++){
                             t_db.insert({
@@ -218,7 +273,7 @@ var app = new Vue({
                 });
             }
         },
-        // 书点击打开阅读界面功能 
+        // 书点击打开阅读界面功能，各个地方的书
         book_click(book){
             app.book = book;
             app.is_loading = true;
@@ -238,6 +293,7 @@ var app = new Vue({
                 app.active_page = 'read_page';
             });
         },
+        net_book_click(book){},
         book_rightMenu(book){
             delete_book = book.name;
             ipcRenderer.send('sig_book_rightMenu');
@@ -331,85 +387,86 @@ var app = new Vue({
         window.removeEventListener('scroll', this.handleScroll);
     },
 })
-// 小说文件解码操作
-function fileType(buffer){             
-    if (buffer[0] == 0xff && buffer[1] == 0xfe) {
-        return 'utf16'
-    } else if (buffer[0] == 0xfe && buffer[1] == 0xff) {
-        return 'utf16'
-    } else if (buffer[0] == 0xef && buffer[1] == 0xbb) {
-        return 'utf8'
-    } else {
-        return 'GBK'
-    }
+function open_book(book){
+    app.book = book;
+    app.is_loading = true;
+    main_db.find({name:book.name}, function(err, res){ if(err) alert(err);
+        app.now_chapter = app.begin_chapter = res[0].begin_chapter; // 初始章节赋值
+        app.bookmarks = res[0].bookmarks; // 书签赋值
+    });
+    const t_db = new nedb({
+        filename: path.join(remote.app.getPath('userData'), '\\'+book.name+'.db'),
+        autoload: true,
+    });
+    t_db.find({}, function(err, res){ if(err) alert(err);
+        app.chapters = [];
+        app.chapters_hidden = res;
+        app.chapters[0] = res[app.begin_chapter];
+        app.is_loading = false;
+        app.active_page = 'read_page';
+    });
 }
-// 判断是不是数字
-function isNumber(char){
-    if(char == '1' || char == '一') return true;
-    else if(char == '2' || char == '二') return true;
-    else if(char == '3' || char == '三') return true;
-    else if(char == '4' || char == '四') return true;
-    else if(char == '5' || char == '五') return true;
-    else if(char == '6' || char == '六') return true;
-    else if(char == '7' || char == '七') return true;
-    else if(char == '8' || char == '八') return true;
-    else if(char == '9' || char == '九') return true;
-    else if(char == '0' || char == '零') return true;
-    else if(char == '十') return true;
-    else if(char == '百') return true;
-    else if(char == '千') return true;
-    else if(char == '万') return true;
-    else return false;
+
+async function home_book_init(){
+    const p = await home_book_init_promise();
+    return p;
 }
-// 小说章节切割函数
-function novel_slice(text){
-    var result = new Array();
-    var i = 0;
-    while(i < text.length){
-        // 提取标题
-        if(text[i]=="第"){
-            var caption = "第";
-            var j = i+1; // 切换到数字
-            if(j >= text.length) break; // 容错处理
-            while(isNumber(text[j])){
-                caption += text[j];
-                j++; if(j >= text.length) break; // 容错处理
+
+function home_book_init_promise(){
+    return new Promise((resolve, reject)=>{
+        superagent.get('http://www.xbiquge.la/').end((err,res)=>{
+            if(err) console.log('error crawler');
+            else{
+                let $ = cheerio.load(res.text);
+                $('div .item').each((idx, ele)=>{
+                    var net_book = {image:'', name:'', info:'', author:''};
+                    net_book.image = $(ele).find('div .image').find('a').find('img').attr('src');
+                    net_book.name = $(ele).find('dl').find('dt').find('a').text();
+                    net_book.href = $(ele).find('dl').find('dt').find('a').attr('href');
+                    net_book.info = $(ele).find('dl').find('dt').find('span').text();
+                    net_book.author = $(ele).find('dl').find('dd').text();
+                    app.net_books.push(net_book);
+                    app.reload;
+                });
             }
-            if((j>=text.length) && (j+1>=text.length)) break; // 容错处理
-            if((text[j]=="章") && (text[j+1]==" ")){ // 说明的确是标题了，如果不是的话，算入正文
-                caption += text[j];
-                i = j+1; // 接下来进行章节名的获取，从这里开始，到找到一个有回车或者空格的段落结束
-                if(i >= text.length) break; // 容错处理
-                while(text[i] == " "){ // 因为可能是个空格，应该直到没有空格结束
-                    caption += text[i];
-                    i+=1;
-                    if(i >= text.length) break; // 容错处理
-                }
-                while((text[i]!=" ")&&(text[i]!="\n")){ // 现在不是空格了，这时候要判断是空格的时候结束
-                    caption += text[i];
-                    i+=1;
-                    if(i >= text.length) break; // 容错处理
-                }
-                var content = ""; // 下面就是内容获取
-                while(i<text.length){
-                    if(i+1 >= text.length) break; // 容错处理
-                    if(text[i+1] == "第"){ // 用于判断是不是标题，+1的目的是为了下面的i+=1设定的
-                        if(i+2 >= text.length) break; // 容错处理
-                        var j = i+2; while(isNumber(text[j])){
-                            j+=1;
-                            if(j >= text.length) break; // 容错处理
-                            if(j+1 >= text.length) break; // 容错处理
-                        } // 搜集里面的数字
-                        if((text[j] == "章") && (text[j+1] == " ")){break;}} // 表明的确是标题，break掉
-                    content += text[i];
-                    i+=1;
-                }
-                var chapter = {caption: caption, content:content};
-                result[result.length] = chapter;
+        })
+    })
+}
+async function net_book_store(book){
+    const p = await net_book_store_promise(book);
+    //open_book(book);
+    return p;
+}
+
+function net_book_store_promise(book){
+    return new Promise((resolve, reject)=>{
+        superagent.get(book.href).end((err,res)=>{
+            if(err) console.log('error crawler');
+            else{
+
+                let $ = cheerio.load(res.text);
+                var result = [];
+                $('dd').each((idx, ele)=>{
+                    result.push({
+                        caption : $(ele).text(), 
+                        href : 'http://www.xbiquge.la'+$(ele).find('a').attr('href')});
+                });
+                fuck(result, 0);
+                console.log(result);
             }
-            else{}// 如果不是'章'的话，说明那就不是标题，而是一段文本，在这种情况下，这种文本不能算入章节中的，应该舍弃不要
+        })
+    })
+}
+
+function fuck(result, index){
+    if(index >= result.length) return;
+    superagent.get(result[index].href).end((err, res)=>{
+        if(err) return;
+        else{
+            let $ = cheerio.load(res.text);
+            console.log($('h1').text())
+            index += 1;
+            fuck(result, index);
         }
-        i+=1; // 用于找标题的一直递增
-    }
-    return result;
+    })
 }

@@ -43,14 +43,24 @@
                         <input id="home_search_box" class="fluent_input" contenteditable="true"/>
                         <div id="home_search_button" class="fluent_button">搜索</div>
                     </div>
-                    <div style="margin: 10px;">推荐</div>
+                    <div style="margin: 10px; font-size: 16px;">推荐</div>
                     <div id="home_list">
-                    <div style="margin: 10px;">网络未连接</div>
-                        <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
-                        <div id="home_refresh_button" class="fluent_float_button">
-                            <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
-                        </div>   
+                        <template v-for="net_book in net_books">
+                            <div class="sort_item">
+                                <div class="home_book">
+                                    <img class="home_book_image" v-bind:src="net_book.image"/>
+                                </div>
+                                <div class="home_book_info">
+                                    <p class="home_book_name" v-on:click="home_book_click(net_book)">{{net_book.name}}</p>
+                                    <p style="font-size: 12px; color:grey;">{{net_book.info}}</p>
+                                    <p style="font-size: 12px; color: grey; margin-top: 20px;">{{net_book.author}}</p>
+                                </div>
+                            </div> 
+                        </template>
                     </div>
+                    <div id="home_refresh_button" class="fluent_float_button">
+                        <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
+                    </div>   
                 </div><!-- home_section -->
                 <div id="rank_section" v-else-if="active_section=='rank_section'">
                         <div style="margin: 10px;">网络未连接</div>
@@ -73,7 +83,7 @@
                     <div class="sort_list">
                         <div style="margin: 10px;">网络未连接</div>
                         <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
-                        <!-- <div class="sort_item">
+                        <div class="sort_item">
                             <div class="sort_book">
                                 <img src="./Resource/Image/book.jpg"/>
                             </div>
@@ -92,7 +102,7 @@
                                 <p style="font-size: 12px; color:grey;">唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
                                 <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div id="sort_refresh_button" class="fluent_float_button">
                         <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;"/>
@@ -299,5 +309,7 @@
     
 
   </body>
+  
+  <script src="./Lib/novel.js"></script>
   <script src="./renderer.js"></script>
 </html>
