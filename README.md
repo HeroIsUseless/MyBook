@@ -69,7 +69,7 @@
 
 ![QQ.png](./readme_res/QQ.png)
 
-赠人玫瑰，手留余香，您的支持将鼓励我加速更新(*^_^*)！[白名单](https://github.com/HeroIsUseless/THANKS)
+恰饭啦恰饭啦！(恰饭二维码在最下面欧)支持我一下下的话会让我更兴奋地更新(*^_^*)！[白名单](https://github.com/HeroIsUseless/THANKS)
 
 ![weixin.png](./readme_res/weixin.png)
 ![zhifubao.png](./readme_res/zhifubao.png)
