@@ -13,18 +13,315 @@
 <body>
     <div id="app">
         <div id="main_page" v-if="active_page == 'main_page'">
+            <div id="navigation" class="fluent_navigation">
+                <div id="" class="nav_item" v-on:click="nav_home_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/home.png" />
+                    <p class="nav_item_text">主页</p>
+                </div>
+                <div id="" class="nav_item" v-on:click="nav_rank_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/rank.png" />
+                    <p class="nav_item_text">排行榜</p>
+                </div>
+                <div id="" class="nav_item" v-on:click="nav_sort_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/sort.png" />
+                    <p class="nav_item_text">分类</p>
+                </div>
+                <div id="" class="nav_item" v-on:click="nav_shelf_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/shelf.png" />
+                    <p class="nav_item_text">书架</p>
+                </div>
+                <div id="nav_setting" class="nav_item" v-on:click="nav_setting_click">
+                    <img class="nav_item_img" src="./Resource/Image/32px/setting.png" />
+                    <p class="nav_item_text">设置</p>
+                </div>
+                <div class="nav_mark" v-bind:style="{top:nav_mark_top+'px', bottom:nav_mark_bottom+'px'}"> </div>
+            </div>
+            <div id="section">
+                <div id="home_section" v-if="active_section=='home_section'">
+                    <div id="home_board">
+                        <img src="./Resource/Image/tf.jpg" style="height: 100%; width:100%;" />
+                    </div>
+                    <div id="home_search">
+                        <input id="home_search_box" class="fluent_input" contenteditable="true" />
+                        <div id="home_search_button" class="fluent_button">搜索</div>
+                    </div>
+                    <div style="margin: 10px; font-size: 16px;">推荐</div>
+                    <div id="home_list">
+                        <template v-for="net_book in net_books">
+                            <div class="sort_item">
+                                <div class="home_book">
+                                    <img class="home_book_image" v-bind:src="net_book.image" />
+                                </div>
+                                <div class="home_book_info">
+                                    <p class="home_book_name" v-on:click="home_book_click(net_book)">{{net_book.name}}
+                                    </p>
+                                    <p style="font-size: 12px; color:grey;">{{net_book.info}}</p>
+                                    <p style="font-size: 12px; color: grey; margin-top: 20px;">{{net_book.author}}</p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div id="home_refresh_button" class="fluent_float_button">
+                        <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;" />
+                    </div>
+                </div><!-- home_section -->
+                <div id="rank_section" v-else-if="active_section=='rank_section'">
+                    <div style="margin: 10px;">网络未连接</div>
+                    <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
+                </div><!-- rank_section -->
+                <div id="sort_section" v-else-if="active_section=='sort_section'">
+                    <div id="sort_head">
+                        <ul class="fluent_head_navigation">
+                            <li class="fluent_nav_item">玄幻</li>
+                            <li class="fluent_nav_item">奇幻</li>
+                            <li class="fluent_nav_item">武侠</li>
+                            <li class="fluent_nav_item">仙侠</li>
+                            <li class="fluent_nav_item">都市</li>
+                            <li class="fluent_nav_item">现实</li>
+                            <li class="fluent_nav_item">军事</li>
+                            <li class="fluent_nav_item">历史</li>
+                        </ul>
+                    </div>
+                    <div id="sort_head_mark"></div>
+                    <div class="sort_list">
+                        <div style="margin: 10px;">网络未连接</div>
+                        <div style="margin: 10px;color: grey;">（实际上网络部分没做好..）</div>
+                        <div class="sort_item">
+                            <div class="sort_book">
+                                <img src="./Resource/Image/book.jpg" />
+                            </div>
+                            <div class="sort_book_info">
+                                <p class="sort_book_name">斗破苍穹</p>
+                                <p style="font-size: 12px; color:grey;">这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！</p>
+                                <p style="font-size: 12px; color: grey; margin-top: 35px;">天蚕土豆</p>
+                            </div>
+                        </div>
+                        <div class="sort_item">
+                            <div class="sort_book">
+                                <img src="./Resource/Image/book2.jpg" />
+                            </div>
+                            <div class="sort_book_info">
+                                <p class="sort_book_name">斗罗大陆</p>
+                                <p style="font-size: 12px; color:grey;">
+                                    唐门外门弟子唐三，因偷学内门绝学为唐门所不容，跳崖明志时却发现没有死，反而以另外一个身份来到了另一个世界，一个属于武魂的世界，名叫斗罗大陆。</p>
+                                <p style="font-size: 12px; color: grey; margin-top: 20px;">唐家三少</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sort_refresh_button" class="fluent_float_button">
+                        <img src="./Resource/Image/32px/refresh.png" style="height: 32px; width:32px;margin: 4px;" />
+                    </div>
+                </div><!-- sort_section -->
+                <div id="shelf_section" v-else-if="active_section == 'shelf_section'">
+                    <div id="shelf_head">
+                        <p id="shelf_import_button" class="fluent_button" v-on:click="shelf_import_click">本地导入</p>
+                        <p id="shelf_outport_button" class="fluent_button" v-on:click="shelf_export_click">导出</p>
+                    </div>
+                    <div id="shelf_content">
+                        <template v-for="book in books">
+                            <!--oncontextmenu-->
+                            <div class="shelf_book" v-on:click="book_click(book)" @click.right="book_rightMenu(book)">
+                                <div class="shelf_book_mark">
+                                    <p style="font-size: 12px; color:rgb(127, 122, 139)">有更新</p>
+                                </div>
+                                <div class="shelf_book_cover"></div>
+                                <p class="shelf_book_name">{{book.name}}</p>
+                                <div class="shelf_book_bottom"></div>
+
+                            </div>
+                        </template>
+                    </div>
+
+                </div><!-- shelf_section -->
+                <div id="setting_section" v-else-if="active_section == 'setting_section'">
+                    <div style="display: flex; margin: 10px;">
+                        <p>小说源：</p>
+                        <select>
+                            <option value="书包网" selected="selected">书包网</option>
+                            <option value="笔趣阁">笔趣阁</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>主 题：</p>
+                        <select>
+                            <option value="白色主题" selected="selected">白色主题</option>
+                            <option value="黑色主题">黑色主题</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>外 观：</p>
+                        <select>
+                            <option>Material风格</option>
+                            <option selected="selected">Windows风格</option>
+                            <option>OSX风格</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; margin: 10px;">
+                        <p>章节切割：</p>
+                        <select v-model="is_slice">
+                            <option value="true">普通切割</option>
+                            <option value="true" selected="selected">智能切割</option value="true">
+                            <option value="false">不切割</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="read_page" v-else-if="active_page == 'read_page'" v-bind:style="{background:page_background}">
+            <!-- <div id="read_background" v-else-if="active_page == 'read_page'"></div> -->
+            <div id="read_content" v-bind:style="{width: page_margin, background:page_background}">
+                <template v-for="chapter in chapters">
+                    <div id="read_chapter" v-bind:class="[page_style]"
+                        v-bind:style="{padding: page_padding, background:page_foreground}"
+                        v-on:click="read_content_click" oncontextmenu="showRightClickMenu()">
+                        <p id="read_book_caption">{{chapter.caption}}</p>
+                        <div id="read_book_info">
+                            <img src="./Resource/Image/16px/word_count.png" />
+                            <p>&nbsp; {{chapter.content.length}}字&nbsp;&nbsp;&nbsp;</p>
+                            <img src="./Resource/Image/16px/bookmark.png" />
+                            <p style="cursor: pointer;" v-on:click="add_bookmark(chapter)">&nbsp; 添加书签&nbsp;&nbsp;</p>
+                        </div>
+                        <div class="read_book_text" v-bind:style="{fontSize:font_size, fontFamily:font_family}">
+                            {{chapter.content}}
+                        </div>
+                    </div>
+                </template>
+                <div id="read_control_pannel">
+                    <div id="read_control_button" v-on:click="read_pannel_home_click">
+                        <img src="./Resource/Image/32px/home.png" style="height: 20px;width: 20px;" />
+                    </div>
+                    <div id="read_control_button" v-on:click="read_pannel_list_click">
+                        <img src="./Resource/Image/16px/list_grey.png" style="height: 20px;width: 20px;" />
+                    </div>
+                    <div id="read_control_button">
+                        <a href="javascript:scroll(0,0)">
+                            <img src="./Resource/Image/16px/to_top.png" style="height: 16px;width: 16px;" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--read_content-->
+            <div id="read_list" v-if="read_list_visible == true">
+                <div id="read_list_head">
+                    <div class="read_list_head_button" v-on:click="read_list_head_caption_click">
+                        <img v-bind:src="read_list_caption" style="height: 16px; width: 16px;" />
+                    </div>
+                    <div class="read_list_head_button" v-on:click="read_list_head_bookmark_click">
+                        <img v-bind:src="read_list_bookmark" style="height: 16px; width: 16px;" />
+                    </div>
+                </div>
+                <div id="read_list_content" v-if="read_list_mode == 'read_caption'">
+                    <template v-for="chapter in chapters_hidden">
+                        <p class="read_list_caption" v-on:click="read_list_caption_click(chapter)">{{chapter.caption}}
+                        </p>
+                    </template>
+                </div>
+                <div id="read_bookmark_content" v-if="read_list_mode == 'read_bookmark'">
+                    <template v-for="bookmark in bookmarks">
+                        <p class="read_list_caption" v-on:click="read_list_bookmark_click(bookmark)">{{bookmark}}</p>
+                    </template>
+                </div>
+            </div>
+            <div id="read_setting" v-if="read_setting_visible == true">
+                <div id="read_setting_title">
+                    <img id="read_setting_close" src="./Resource/Image/16px/close_grey_small.png"
+                        v-on:click="setting_close_click" />
+                </div>
+                <div id="read_setting_content">
+                    <div id="read_setting_font">
+                        <div id="read_setting_font_family" class="read_setting_item">
+                            <p class="read_setting_text">字体:</p>
+                            <select class="read_setting_select" v-model="font_family">
+                                <option selected="selected">微软雅黑</option>
+                                <option>宋体</option>
+                                <option>黑体</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_font_size" class="read_setting_item">
+                            <p class="read_setting_text">字体大小:</p>
+                            <select class="read_setting_select" v-model="font_size">
+                                <option>10px</option>
+                                <option selected="selected">15px</option>
+                                <option>20px</option>
+                                <option>25px</option>
+                                <option>30px</option>
+                                <option>35px</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--setting_font-->
+                    <div id="read_setting_page">
+                        <div id="read_setting_page_padding" class="read_setting_item">
+                            <p class="read_setting_text">页内边距:</p>
+                            <select class="read_setting_select" v-model="page_padding">
+                                <option>0px</option>
+                                <option>10px</option>
+                                <option>30px</option>
+                                <option selected="selected">60px</option>
+                                <option>90px</option>
+                                <option>120px</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_page_margin" class="read_setting_item">
+                            <p class="read_setting_text">页宽:</p>
+                            <select class="read_setting_select" v-model="page_margin">
+                                <option>50%</option>
+                                <option>60%</option>
+                                <option selected="selected">70%</option>
+                                <option>80%</option>
+                                <option>90%</option>
+                                <option>100%</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_page_style" class="read_setting_item">
+                            <p class="read_setting_text">页面样式:</p>
+                            <select class="read_setting_select" v-model="page_style">
+                                <option selected="selected" value="card_view">起点中文网</option>
+                                <option value="card_view_chuangshi">创世中文网</option>
+                                <option value="card_view_wangyi">网易阅读</option>
+                                <option value="card_view_tadu">塔读文学</option>
+                                <option value="card_view_default">可穿戴科技</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_page_background" class="read_setting_item">
+                            <p class="read_setting_text">背景色:</p>
+                            <select class="read_setting_select" v-model="page_background">
+                                <option selected="selected" style="background: #ececec">浅灰色</option>
+                                <option value="#5c2223" style="background: #5c2223">暗玉紫</option>
+                                <option value="#eea2a4" style="background: #eea2a4">牡丹粉红</option>
+                                <option value="#5a191b" style="background: #5a191b">栗紫</option>
+                                <option value="#f07c82" style="background: #f07c82">香叶红</option>
+                                <option value="#5a1216" style="background: #5a1216">葡萄紫</option>
+                                <option value="#ed5a65" style="background: #ed5a65">艳红</option>
+                                <option value="#c04851" style="background: #c04851">玉红</option>
+                            </select>
+                        </div>
+                        <div id="read_setting_page_foreground" class="read_setting_item">
+                            <p class="read_setting_text">前景色:</p>
+                            <select class="read_setting_select" v-model="page_foreground">
+                                <option selected="selected" style="background: white">白色</option>
+                                <option value="#5c2223" style="background: #5c2223">暗玉紫</option>
+                                <option value="#eea2a4" style="background: #eea2a4">牡丹粉红</option>
+                                <option value="#5a191b" style="background: #5a191b">栗紫</option>
+                                <option value="#f07c82" style="background: #f07c82">香叶红</option>
+                                <option value="#5a1216" style="background: #5a1216">葡萄紫</option>
+                                <option value="#ed5a65" style="background: #ed5a65">艳红</option>
+                                <option value="#c04851" style="background: #c04851">玉红</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="scroll_bar">
+                <div id="scroll_block"></div>
+            </div> -->
         </div>
         <div id="loading_page" v-if="is_loading == true">
             <img src="./Resource/Image/64px/loading_light.png" style="height: 64px; width:64px;" />
         </div>
     </div>
 </body>
-<script>
-    $("#main_page").load("./page/main_page.html");
-    $("#read_page").load("./page/read_page.html");
-</script>
 <!--解决方法就是将vue下移，是非常简便的-->
 <script src="./Lib/vue.min.js"></script>
 <script src="./app.js"></script>
