@@ -21,6 +21,8 @@
 
 ## 日志
 
+**[heroisuseless， 2020/1/30]**：添加智能切割/不切割选项，那么就可以看非章节体的文字了。
+
 **[heroisuseless， 2019/8/22]**：添加返回顶部功能。
 
 **[heroisuseless， 2019/8/21]**：添加小说删除功能。
@@ -73,3 +75,5 @@
 
 ![weixin.png](./readme_res/weixin.png)
 ![zhifubao.png](./readme_res/zhifubao.png)
+
+重新编排一下这个名称吧，太难了
