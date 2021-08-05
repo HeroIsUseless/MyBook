@@ -4,12 +4,7 @@
 
  下载[点击此处即可](https://github.com/HeroIsUseless/MyBook/releases)
 
-在网站的更新往往比在QQ群中更新慢，因此最好加一下QQ群（在下面），另外，如果感觉不错的话点一下右上角的star吧，真的很重要，谢谢！！
-    
-## 主界面
-![6.png](./readme_res/6.png)
-## 阅读界面
-![3.png](./readme_res/3.png)
+在网站的更新往往比在QQ群中更新慢，因此最好加一下QQ群（917630720），另外，如果感觉不错的话点一下右上角的star吧，真的很重要，谢谢！！
 
 ## 本阅读器的特色与创新
  
@@ -67,13 +62,4 @@
 
 
 
-交流QQ群：383538410
-
-![QQ.png](./readme_res/QQ.png)
-
-恰饭啦恰饭啦！(恰饭二维码在最下面欧)支持我一下下的话会让我更兴奋地更新(*^_^*)！[白名单](https://github.com/HeroIsUseless/THANKS)
-
-![weixin.png](./readme_res/weixin.png)
-![zhifubao.png](./readme_res/zhifubao.png)
-
-重新编排一下这个名称吧，太难了
+交流QQ群：917630720
