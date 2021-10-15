@@ -1,3 +1,4 @@
+⚠️注意：master分支为第一版，pure-js分支同master分支，vue2分支为第二版，vue3分支为第三版，react分支为第四版，每个分支的意义如其名，我分别用不同的前端技术写了MyBook这个软件，每个分支的功能，外观可能没有太大区别，但是底层代码是有很大区别的
 # MyBook
 
 > 一款简约优美的电脑端电子书阅读器，采用electron技术，跨linux，OSX，windows平台。
