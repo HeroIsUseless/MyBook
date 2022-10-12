@@ -18,7 +18,7 @@
   "author": "heroisuseless",
   "license": "CC0-1.0",
   "dependencies": {
-    "appium-chromedriver": "^4.20.1",
+    "appium-chromedriver": "^4.28.0",
     "cheerio": "^0.22.0",
     "express": "^4.17.1",
     "iconv-lite": "^0.5.0",
