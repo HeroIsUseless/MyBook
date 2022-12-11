@@ -20,7 +20,7 @@
   "dependencies": {
     "appium-chromedriver": "^4.20.1",
     "cheerio": "^0.22.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "iconv-lite": "^0.5.0",
     "nedb": "^1.8.0",
     "superagent": "^5.1.3",
